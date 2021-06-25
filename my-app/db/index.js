@@ -135,7 +135,7 @@ async function getProductByCategory(category) {
       `
       SELECT *
       FROM products
-      WHERE type=$1;
+      WHERE category=$1;
     `,
       [category]
     );
@@ -154,6 +154,7 @@ const createUser = async ({
   email,
   name,
   admin,
+  guest,
   cart = [],
 }) => {
   try {
@@ -162,13 +163,13 @@ const createUser = async ({
     } = await client.query(
       `
             INSERT INTO users(
-              username, password, email, name, admin,  cart
+              username, password, email, name, admin, guest,  cart
               )
-            VALUES($1, $2, $3, $4, $5, $6)
+            VALUES($1, $2, $3, $4, $5, $6, $7)
             ON CONFLICT (username, email) DO NOTHING
             RETURNING *;
          `,
-      [username, password, email, name, admin, cart]
+      [username, password, email, name, admin, guest, cart]
     );
 
     return users;
