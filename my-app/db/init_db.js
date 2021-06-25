@@ -26,12 +26,11 @@ async function buildTables() {
       CREATE TABLE products(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
-        date_created DATE NOT NULL DEFAULT CURRENT_DATE,
         description VARCHAR(255) NOT NULL,
         price DECIMAL DEFAULT 0,
         image_url TEXT NOT NULL,
         category VARCHAR(255) NOT NULL,
-        quantity INTEGER,
+        quantity INTEGER DEFAULT 0,
         inventory INTEGER DEFAULT 0
         
         
@@ -43,6 +42,7 @@ async function buildTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         name VARCHAR(255) NOT NULL,
         admin BOOLEAN DEFAULT FALSE,
+        guest BOOLEAN DEFAULT TRUE,
         cart TEXT [],
         UNIQUE(username, email)
       );
@@ -63,34 +63,31 @@ const createInitialProducts = async () => {
   try {
     const productsToCreate = [
       {
-        name: "product 1",
-        date_created: "2020/08/31",
-        description: "Link One Description.",
-        price: 1.25,
-        image_url: "https://picsum.photos/id/217/200/300",
+        name: "product test 1",
+        description: "Description...",
+        price: 22.5,
+        image_url: "https://picsum.photos/200/300",
         category: "vodka",
         quantity: 2,
-        inventory: "5",
+        inventory: 5,
       },
       {
-        name: "product 2",
-        date_created: "2021/12/11",
-        description: "Link Two Description.",
-        price: 16.99,
-        image_url: "https://picsum.photos/id/227/200/300",
+        name: "product test 2",
+        description: "Description...",
+        price: 14.99,
+        image_url: "https://picsum.photos/200/300",
         category: "gin",
         quantity: 1,
-        inventory: "6",
+        inventory: 6,
       },
       {
-        name: "product 3",
-        date_created: "2019/02/07",
-        description: "Link three Description.",
-        price: 47.99,
-        image_url: "https://picsum.photos/id/237/200/300",
+        name: "product test 3",
+        description: "Description...",
+        price: 21.99,
+        image_url: "https://picsum.photos/200/300",
         category: "whiskey",
         quantity: 1,
-        inventory: "7",
+        inventory: 7,
       },
     ];
     const products = await Promise.all(productsToCreate.map(createProduct));
@@ -167,12 +164,12 @@ async function testDB() {
     console.log("Result:", productByCategory);
 
     console.log("Calling addProductToCart");
-    const userWithProduct = await addProductToCart(1, 2);
+    const userWithProduct = await addProductToCart(1, 1);
     console.log("Result:", userWithProduct);
 
     console.log("Calling addProductToCart");
-    const userWithSecondProduct = await addProductToCart(1, 1);
-    console.log("Result:", userWithSecondProduct);
+    const userWithThirdProduct = await addProductToCart(2, 3);
+    console.log("Result:", userWithThirdProduct);
 
     console.log("Calling patchProduct");
     const updatedProduct = await patchProduct(1, {
