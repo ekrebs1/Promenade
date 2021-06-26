@@ -1,193 +1,284 @@
 const {
   client,
+  createUser,
+  getAllUsers,
+  getUserByEmail,
+  getUserById,
+  updateUser,
+  getUserByUsername,
+  createOrder,
+  getOrderById,
+  getAllOrders,
+  getOrderByUser,
   createProduct,
   getAllProducts,
   getProductById,
-  getProductByCategory,
-  patchProduct,
-  createUser,
-  getAllUsers,
-  patchUser,
-  addProductToCart,
+  updateProduct,
+  deleteProduct,
+  productByCategory,
 } = require("./index");
 ``;
 
 async function buildTables() {
   try {
+    console.log("Starting to drop tables...");
     client.query(`
-        DROP TABLE IF EXISTS user_cart;
-        DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS cart;
         DROP TABLE IF EXISTS products;
+        DROP TABLE IF EXISTS orders;
+        DROP TABLE IF EXISTS users;
+        
       `);
+    console.log("Finished dropping tables!");
 
     console.log("Starting to build tables...");
 
     await client.query(`
-      CREATE TABLE products(
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255) UNIQUE NOT NULL,
-        description VARCHAR(255) NOT NULL,
-        price DECIMAL DEFAULT 0,
-        image_url TEXT NOT NULL,
-        category VARCHAR(255) NOT NULL,
-        quantity INTEGER DEFAULT 0,
-        inventory INTEGER DEFAULT 0
-        
-        
+    
+        CREATE TABLE users(
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(255) UNIQUE,
+            username VARCHAR(255) UNIQUE,
+            password VARCHAR(255),
+            address VARCHAR(255) NOT NULL,
+            city VARCHAR(255) NOT NULL,
+            state VARCHAR(255) NOT NULL,
+            zip VARCHAR(255) NOT NULL,
+            "isAdmin" BOOLEAN DEFAULT false,
+            "isUser" BOOLEAN DEFAULT false
+        );
+        CREATE TABLE orders(
+          id SERIAL PRIMARY KEY,
+          date_ordered VARCHAR(255) NOT NULL,
+          total_price DECIMAL,
+          "usersId" INTEGER REFERENCES users(id)
+        );
+        CREATE TABLE products (
+            id SERIAL PRIMARY KEY,
+            name varchar(30) UNIQUE,
+            description VARCHAR(255),
+            price DECIMAL,
+            quantity INTEGER,
+            category text,
+            inventory INTEGER DEFAULT 0
       );
-       CREATE TABLE users(
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        admin BOOLEAN DEFAULT FALSE,
-        guest BOOLEAN DEFAULT TRUE,
-        cart TEXT [],
-        UNIQUE(username, email)
-      );
-      CREATE TABLE user_cart(
-        user_id INTEGER REFERENCES users(id),
-        product_id INTEGER REFERENCES products(id),
-        UNIQUE(user_id, product_id)
-      );
+        CREATE TABLE cart(
+          id SERIAL PRIMARY KEY,
+          "productId" INTEGER REFERENCES products(id),
+          "orderId" INTEGER REFERENCES orders(id),
+          "usersId" INTEGER REFERENCES users(id),
+          UNIQUE("productId", "orderId", "usersId")
+        );
       `);
-    console.log("Finished building tables...");
+
+    console.log("Finished building tables!");
   } catch (error) {
     throw error;
   }
 }
 
-const createInitialProducts = async () => {
-  console.log("Starting to create initial products...");
+async function populateInitialProducts() {
   try {
+    console.log("starting to create products...");
+
     const productsToCreate = [
       {
-        name: "product test 1",
-        description: "Description...",
-        price: 22.5,
-        image_url: "https://picsum.photos/200/300",
-        category: "vodka",
+        id: 1,
+        name: "Product 1",
+        description: "some type of alcohol",
+        price: 12.99,
         quantity: 2,
-        inventory: 5,
+        category: "vodka",
+        inventory: 21,
       },
       {
-        name: "product test 2",
-        description: "Description...",
-        price: 14.99,
-        image_url: "https://picsum.photos/200/300",
-        category: "gin",
+        id: 2,
+        name: "Product 2",
+        description: "another alcohol",
+        price: 22.5,
         quantity: 1,
-        inventory: 6,
-      },
-      {
-        name: "product test 3",
-        description: "Description...",
-        price: 21.99,
-        image_url: "https://picsum.photos/200/300",
         category: "whiskey",
-        quantity: 1,
-        inventory: 7,
+        inventory: 14,
+      },
+      {
+        id: 3,
+        name: "Product 3",
+        description: "some description",
+        price: 14.0,
+        quantity: 2,
+        category: "gin",
+        inventory: 30,
       },
     ];
-    const products = await Promise.all(productsToCreate.map(createProduct));
-    console.log("Products created:");
-    console.log(products);
-    console.log("Finished creating products!");
-  } catch (err) {
-    console.error("There was a problem creating PRODUCTS");
-    throw err;
-  }
-};
 
-const createInitialUsers = async () => {
-  console.log("Starting to create initial users...");
+    const theProducts = await Promise.all(
+      productsToCreate.map((product) => createProduct(product))
+    );
+    console.log("Products Created: ", theProducts);
+    console.log("Finished creating products.");
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function populateInitialUsers() {
   try {
+    console.log("starting to create users...");
     const usersToCreate = [
       {
-        username: "test",
+        email: "admin@gmail.com",
+        name: "Tonya Green",
+        password: "admin123",
+        username: "administrator",
+        address: "1 ruby road",
+        city: "Houston",
+        state: "TX",
+        zip: "12345",
+        isAdmin: true,
+      },
+      {
+        email: "newbie@gmail.com",
+        name: "Jason Hill",
         password: "test123",
-        email: "hello@gmail.com",
-        name: "Danielle Scott",
-        admin: "true",
+        username: "hills5",
+        address: "39 circle rd",
+        city: "mandeville",
+        state: "LA",
+        zip: "70448",
       },
       {
-        username: "Ali123",
+        email: "chris.scott@gmail.com",
+        name: "Chris Scott",
         password: "hellothere",
-        email: "ali123@gmail.com",
-        name: "Ali Miles",
-        admin: "false",
-      },
-      {
-        username: "testing123",
-        password: "testing567",
-        email: "testing123@gmail.com",
-        name: "test",
-        admin: "false",
+        username: "scott.c",
+        address: "123 wilderness rd",
+        city: "covington",
+        state: "LA",
+        zip: "70447",
       },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
-    console.log("Users created:");
-    console.log(users);
-    console.log("Finished creating users!");
-  } catch (err) {
-    console.error("There was a problem creating USERS");
-    throw err;
+    console.log("User Created: ", users);
+    console.log("Finished creating users.");
+  } catch (error) {
+    throw error;
   }
-};
+}
+
+async function populateInitialOrders() {
+  try {
+    console.log("starting to create orders...");
+    const ordersToCreate = [
+      {
+        date_ordered: "11/22/2020",
+        total_price: 32.99,
+      },
+      {
+        date_ordered: "05/04/2021",
+        total_price: 23.1,
+      },
+      {
+        date_ordered: "08/15/2021",
+        total_price: 38.85,
+      },
+    ];
+
+    const theOrders = await Promise.all(
+      ordersToCreate.map((order) => createOrder(order))
+    );
+
+    console.log("orders Created: ", theOrders);
+    console.log("Finished creating orders.");
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function rebuildDB() {
   try {
     client.connect();
+
     await buildTables();
-    await createInitialProducts();
-    await createInitialUsers();
+    await populateInitialProducts();
+    await populateInitialUsers();
+    await populateInitialOrders();
+    await getAllOrders();
   } catch (error) {
+    console.log("Error during rebuildDB");
     throw error;
   }
 }
 
 async function testDB() {
   try {
-    console.log("Starting to test database...");
+    console.log("starting to build tables in rebuildDB");
+    await buildTables();
 
-    console.log("Calling getAllProducts");
-    const products = await getAllProducts();
-    console.log("Result:", products);
+    console.log("starting to populate initial products in rebuildDB");
+    await populateInitialProducts();
+
+    console.log("starting to populate initial Users in rebuildDB");
+    await populateInitialUsers();
+
+    console.log("starting to populate initial orders in rebuildDB");
+    await populateInitialOrders();
+
+    console.log("Starting to test database...");
 
     console.log("Calling getAllUsers");
     const users = await getAllUsers();
     console.log("Result:", users);
 
-    console.log("Calling getProductByCategory");
-    const productByCategory = await getProductByCategory("whiskey");
-    console.log("Result:", productByCategory);
+    console.log("Calling getUserByEmail with 1");
+    const singleEmail = await getUserByEmail(users[1].email);
+    console.log("Result:", singleEmail);
 
-    console.log("Calling addProductToCart");
-    const userWithProduct = await addProductToCart(1, 1);
-    console.log("Result:", userWithProduct);
+    console.log("Calling getUserById with 1");
+    const singleUser = await getUserById(1);
+    console.log("Result:", singleUser);
 
-    console.log("Calling addProductToCart");
-    const userWithThirdProduct = await addProductToCart(2, 3);
-    console.log("Result:", userWithThirdProduct);
+    console.log("Calling update user");
+    const updatedUserData = await updateUser(users[0].id, {
+      username: "hilly",
+    });
+    console.log("Result:", updatedUserData);
 
-    console.log("Calling patchProduct");
-    const updatedProduct = await patchProduct(1, {
-      name: "updated product",
-      inventory: 20,
+    const username = await getUserByUsername(users[1].username);
+    console.log("Result:", username);
+    console.log("Calling getUserByUsername with 1");
+
+    console.log("Starting to test products...");
+
+    console.log("Calling getAllProducts");
+    const products = await getAllProducts();
+    console.log("Result:", products);
+
+    console.log("Calling getProductById with 1");
+    const singleProduct = await getProductById(1);
+    console.log("Result:", singleProduct);
+
+    console.log("Calling updateProduct on product[0]");
+    const updatedProduct = await updateProduct(products[0].id, {
+      name: "New Product",
+      description: "Updated description",
     });
     console.log("Result:", updatedProduct);
 
-    console.log("Calling patchUser");
-    const updatedUser = await patchUser(1, {
-      name: "Jenny Roy",
-      username: "coder567",
-    });
-    console.log("Result:", updatedUser);
+    // console.log("Testing delete product");
+    // const deleteProduct = await deleteProduct(2);
+    // console.log("Result: product deleted", deleteProduct);
+
+    console.log("Calling getProductByCategory");
+    const productsWithVodka = await productByCategory("vodka");
+    console.log("Result:", productsWithVodka);
+
+    console.log("Calling getOrderById");
+    const orderId = await getOrderById(2);
+    console.log("Result:", orderId);
 
     console.log("Finished database tests!");
   } catch (error) {
-    console.log("Error during testDB");
+    console.log("Error during rebuildDB");
     throw error;
   }
 }
