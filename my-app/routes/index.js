@@ -8,7 +8,6 @@ const apiRouter = express.Router();
 const usersRouter = require("./users");
 const productsRouter = require("./products");
 const ordersRouter = require("./orders");
-const cartsRouter = require("./carts");
 
 apiRouter.use(async (req, res, next) => {
   const prefix = "Bearer ";
@@ -40,7 +39,6 @@ apiRouter.use(async (req, res, next) => {
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);
 apiRouter.use("/orders", ordersRouter);
-apiRouter.use("/carts", cartsRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.send(error);
