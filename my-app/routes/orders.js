@@ -32,7 +32,7 @@ ordersRouter.post("/", requireUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.post("/:orderId/ingredients", async (req, res, next) => {
+ordersRouter.post("/:orderId/products", async (req, res, next) => {
   const { orderId } = req.params;
   const { productId } = req.body;
   try {
