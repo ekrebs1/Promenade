@@ -4,7 +4,7 @@ const {
   deleteOrder,
   getAllOrders,
   addProductsToOrder,
-} = require("../db");
+} = require("../../db");
 const { requireUser } = require("./utils");
 const ordersRouter = express.Router();
 

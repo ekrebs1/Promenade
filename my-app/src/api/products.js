@@ -6,7 +6,7 @@ const {
   productByCategory,
   getProductById,
   deleteProduct,
-} = require("../db");
+} = require("../../db");
 
 productsRouter.get("/", async (req, res, next) => {
   try {

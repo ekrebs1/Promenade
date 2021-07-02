@@ -10,6 +10,7 @@ server.use(bodyParser.json());
 const path = require("path");
 server.use(express.static(path.join(__dirname, "build")));
 
+const apiRouter = require("./api");
 server.use("/api", require("./routes"));
 
 server.use((req, res, next) => {
