@@ -7,7 +7,7 @@ const {
   getUserById,
   getUserByUsername,
   updateUser,
-} = require("../../db");
+} = require("../db");
 
 const jwt = require("jsonwebtoken");
 const { requireUser, requireAdmin } = require("./utils");
