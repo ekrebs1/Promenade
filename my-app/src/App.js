@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navbar } from "./components";
 
 import { getSomething } from "./api";
 
@@ -19,8 +20,7 @@ const App = () => {
     <div>
       <main>
         <div className='App'>
-          <h1>Hello, World!</h1>
-          <h2>{message}</h2>
+          <Navbar />
         </div>
       </main>
     </div>
