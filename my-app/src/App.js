@@ -1,29 +1,13 @@
-import React from // { useState, useEffect }
-"react";
-import { Navbar } from "./components";
+import React from "react";
 
-// import { getSomething } from "./api";
+import { ProductsList, Navbar } from "./components";
 
 const App = () => {
-  // const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-  //   getSomething()
-  //     .then((response) => {
-  //       setMessage(response.message);
-  //     })
-  //     .catch((error) => {
-  //       setMessage(error.message);
-  //     });
-  // });
-
   return (
     <div>
-      <main>
-        <div className='App'>
-          <Navbar />
-        </div>
-      </main>
+      <Navbar />
+
+      <ProductsList />
     </div>
   );
 };
