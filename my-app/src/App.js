@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from // { useState, useEffect }
+"react";
 import { Navbar } from "./components";
 
-import { getSomething } from "./api";
+// import { getSomething } from "./api";
 
 const App = () => {
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    getSomething()
-      .then((response) => {
-        setMessage(response.message);
-      })
-      .catch((error) => {
-        setMessage(error.message);
-      });
-  });
+  // useEffect(() => {
+  //   getSomething()
+  //     .then((response) => {
+  //       setMessage(response.message);
+  //     })
+  //     .catch((error) => {
+  //       setMessage(error.message);
+  //     });
+  // });
 
   return (
     <div>

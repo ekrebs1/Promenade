@@ -5,9 +5,11 @@ const client = new Client(DB_URL);
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
+//PRODUCTS*****************************
 async function createProduct({
   name,
   description,
+  image_url,
   price,
   quantity,
   category,
@@ -18,11 +20,11 @@ async function createProduct({
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products (name, description, price, quantity, category, inventory)
-        VALUES($1, $2, $3, $4, $5, $6)
+        INSERT INTO products (name, description, image_url,price, quantity, category, inventory)
+        VALUES($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
       `,
-      [name, description, price, quantity, category, inventory]
+      [name, description, image_url, price, quantity, category, inventory]
     );
 
     return product;
@@ -93,6 +95,14 @@ async function deleteProduct(id) {
       throw new Error({ message: "NoProductError" });
     }
 
+    await client.query(
+      `
+        DELETE FROM carts
+        WHERE "productId"=$1;
+        `,
+      [id]
+    );
+
     const {
       rows: [product],
     } = await client.query(
@@ -128,6 +138,8 @@ async function productByCategory(category) {
   }
 }
 
+//ORDERS*********************
+
 async function createOrder({ date_ordered, total_price }) {
   try {
     const {
@@ -149,40 +161,47 @@ async function createOrder({ date_ordered, total_price }) {
 
 async function getAllOrders() {
   try {
-    const { rows: orderId } = await client.query(`
-        SELECT id
+    const { rows: orders } = await client.query(`
+        SELECT *
         FROM orders;
       `);
 
-    const orders = await Promise.all(
-      orderId.map((order) => getOrderById(order.id))
-    );
-
     return orders;
   } catch (error) {
     throw error;
   }
 }
 
-async function getOrderByUser(userId) {
+async function getOrderByUser(orderId) {
   try {
-    const { rows: orderId } = await client.query(`
-        SELECT id 
-        FROM orders 
-        WHERE "usersId"=${userId};
-      `);
-
-    const orders = await Promise.all(
-      orderId.map((order) => getOrderById(order.id))
+    const { rows: order } = await client.query(
+      `
+        SELECT
+        product.name,
+        product.description,
+        product.price,
+        product.image_url,
+        product.quantity,
+        cart.id
+        order.total_price,
+        order.date_ordered,
+        FROM products
+        JOIN carts
+        ON product.id=cart."productId"
+        JOIN orders
+        ON order.id=cart."orderId"
+        WHERE cart."orderId"=$1;
+      `,
+      [orderId]
     );
 
-    return orders;
+    return order;
   } catch (error) {
     throw error;
   }
 }
 
-async function getOrderById(id) {
+async function getOrderById(orderId) {
   try {
     const {
       rows: [order],
@@ -191,43 +210,9 @@ async function getOrderById(id) {
       SELECT * FROM orders
       WHERE id=$1
       `,
-      [id]
+      [orderId]
     );
     return order;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function createCart(orderId, productId) {
-  try {
-    await client.query(
-      `
-      INSERT INTO cart("orderId", "productId")
-      VALUES ($1, $2)
-      RETURNING *
-    `,
-      [orderId, productId]
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function addCartProductsToOrder({ orderId, productId }) {
-  try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
-      INSERT INTO cart("orderId", "productId") 
-      VALUES($1, $2) 
-      RETURNING *;
-    `,
-      [orderId, productId]
-    );
-
-    return cart;
   } catch (error) {
     throw error;
   }
@@ -239,27 +224,115 @@ const deleteOrder = async (id) => {
       rows: [order],
     } = await client.query(
       `
+      DELETE FROM carts
+      WHERE "orderId" = $1
+      `,
+      [id]
+    );
+    await client.query(
+      `
       DELETE FROM orders
       WHERE id = $1
       RETURNING *;
       `,
       [id]
     );
-
-    await client.query(
-      `
-      DELETE FROM cart
-      WHERE "orderId" = $1
-      `,
-      [id]
-    );
-
     return order;
   } catch (error) {
     throw error;
   }
 };
 
+//CARTS*********************
+
+async function createCartItem(productId, userId) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
+      INSERT INTO cart("productId", "userId")
+      VALUES ($1, $2)
+      RETURNING *
+    `,
+      [productId, userId]
+    );
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllCartItems() {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+        FROM products
+        JOIN carts
+        ON product.id=cart."productId"
+      `
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getCartByUser(usersId) {
+  try {
+    const { rows: cart } = await client.query(
+      `
+      SELECT *
+        FROM products
+        JOIN carts
+        ON product.id=cart."productId"
+        WHERE "usersId"=$1
+        `,
+      [usersId]
+    );
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+// async function addCartProductsToOrder({ orderId, productId }) {
+//   try {
+//     const {
+//       rows: [cart],
+//     } = await client.query(
+//       `
+//       INSERT INTO cart("orderId", "productId")
+//       VALUES($1, $2)
+//       RETURNING *;
+//     `,
+//       [orderId, productId]
+//     );
+
+//     return cart;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
+async function deleteCartItems(id) {
+  try {
+    const { rows: cart } = await client.query(
+      `
+  DELETE * 
+  FROM carts
+  WHERE id=$1
+  `,
+      [id]
+    );
+
+    return cart;
+  } catch (err) {
+    throw err;
+  }
+}
+
+//USERS****************
 async function createUser({
   email,
   username,
@@ -406,12 +479,17 @@ module.exports = {
   getOrderByUser,
   getOrderById,
   deleteOrder,
-  addCartProductsToOrder,
-  createCart,
+  // addCartProductsToOrder,
+  // createCart,
   createUser,
   getUserByEmail,
   getAllUsers,
   getUserById,
   updateUser,
   getUserByUsername,
+  // createCart,
+  createCartItem,
+  getAllCartItems,
+  getCartByUser,
+  deleteCartItems,
 };

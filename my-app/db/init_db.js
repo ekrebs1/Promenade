@@ -16,6 +16,11 @@ const {
   updateProduct,
   deleteProduct,
   productByCategory,
+  createCartItem,
+  getAllCartItems,
+  getCartByUser,
+  deleteCartItems,
+  createCart,
 } = require("./index");
 ``;
 
@@ -57,6 +62,7 @@ async function buildTables() {
             id SERIAL PRIMARY KEY,
             name varchar(30) UNIQUE,
             description VARCHAR(255),
+            image_url TEXT,
             price DECIMAL,
             quantity INTEGER,
             category text,
