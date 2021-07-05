@@ -20,7 +20,7 @@ async function createProduct({
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products (name, description, image_url,price, quantity, category, inventory)
+        INSERT INTO products (name, description, image_url, price, quantity, category, inventory)
         VALUES($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
       `,
