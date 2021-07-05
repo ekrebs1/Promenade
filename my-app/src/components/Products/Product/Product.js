@@ -13,12 +13,12 @@ import useStyles from "./styles";
 
 const Product = ({ product }) => {
   const classes = useStyles();
-
+  console.log(product);
   return (
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={product.image}
+        image={product.image_url}
         title={product.name}
       />
       <CardContent>
@@ -30,6 +30,9 @@ const Product = ({ product }) => {
         </div>
         <Typography variant='body2' color='textSecondary'>
           {product.description}
+        </Typography>
+        <Typography variant='body2' color='textSecondary'>
+          Category: {product.category}
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
