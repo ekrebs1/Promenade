@@ -2,7 +2,7 @@ import axios from "axios";
 
 //PRODUCTS************
 
-export async function allProducts() {
+export async function getAllProducts() {
   try {
     const { data } = await axios.get("/api/products");
     return data;
