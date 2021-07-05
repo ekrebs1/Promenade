@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ShoppingCart, AccountCircle } from "@material-ui/icons";
-import { MoreIcon } from "@material-ui/icons/MoreVert";
 
 import logo from "../../assets/LastCall_Logo.jpeg";
 import useStyles from "./styles";

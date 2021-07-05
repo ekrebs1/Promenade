@@ -21,6 +21,8 @@ const {
   getCartByUser,
   deleteCartItems,
   createCart,
+  updateCartItemWithQuantity,
+  updateCartItemWithOrderId,
 } = require("./index");
 ``;
 
@@ -56,7 +58,6 @@ async function buildTables() {
           id SERIAL PRIMARY KEY,
           date_ordered VARCHAR(255) NOT NULL,
           total_price DECIMAL,
-          "usersId" INTEGER REFERENCES users(id)
         );
         CREATE TABLE products (
             id SERIAL PRIMARY KEY,
@@ -70,10 +71,11 @@ async function buildTables() {
       );
         CREATE TABLE carts(
           id SERIAL PRIMARY KEY,
+          quantity INTEGER,
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
           "usersId" INTEGER REFERENCES users(id),
-          UNIQUE("productId", "orderId", "usersId")
+          
         );
       `);
 
@@ -179,14 +181,17 @@ async function populateInitialOrders() {
     console.log("starting to create orders...");
     const ordersToCreate = [
       {
+        // quantity: 2,
         date_ordered: "11/22/2020",
         total_price: 32.99,
       },
       {
+        // quantity: 3,
         date_ordered: "05/04/2021",
         total_price: 23.1,
       },
       {
+        // quantity: 1,
         date_ordered: "08/15/2021",
         total_price: 38.85,
       },
