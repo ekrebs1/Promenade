@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import Product from "./Product/Product";
 import useStyles from "./styles";
-import { getAllProducts } from "../../api";
+import { getAllCartItems, getAllProducts, addCartItem } from "../../api";
+import Navbar from "../Navbar/Navbar";
 
 // const products = [
 //   {
@@ -37,9 +38,10 @@ import { getAllProducts } from "../../api";
 //   },
 // ];
 
-const ProductsList = () => {
+const ProductsList = ({ onAddToCart }) => {
   const classes = useStyles();
   const [grabbedProducts, setGrabbedProducts] = useState();
+  const [grabbedCartItems, setGrabbedCartItems] = useState({});
 
   const fetchProducts = async () => {
     try {
@@ -49,9 +51,29 @@ const ProductsList = () => {
       console.error(error);
     }
   };
+
+  const fetchCartItems = async () => {
+    try {
+      const cartItems = await getAllCartItems();
+      setGrabbedCartItems(cartItems);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddToCart = async (productId, quantity) => {
+    const item = await addCartItem(productId, quantity);
+
+    setGrabbedCartItems(item);
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCartItems();
   }, []);
+
+  console.log(grabbedCartItems);
+  console.log(grabbedProducts);
 
   return (
     <div className={classes.card}>
@@ -59,7 +81,7 @@ const ProductsList = () => {
         <div className={classes.toolbar} />
         <Grid container spacing={4} className={classes.grid} justify='center'>
           {grabbedProducts?.map((product, index) => {
-            return <Product product={product} />;
+            return <Product product={product} onAddToCart={handleAddToCart} />;
           })}
         </Grid>
       </main>
