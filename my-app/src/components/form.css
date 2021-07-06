@@ -1,0 +1,17 @@
+.form-container {
+  display: grid;
+  grid-template: 0.5fr auto / auto;
+  padding: 10px;
+}
+
+.form-header {
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Fjalla One", sans-serif;
+}
+
+.the-form {
+  grid-row: 2 / 3;
+}
