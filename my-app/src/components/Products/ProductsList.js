@@ -71,8 +71,8 @@ const ProductsList = ({ onAddToCart }) => {
     fetchProducts();
     fetchCartItems();
   }, []);
-
-  console.log(grabbedCartItems);
+  console.log(fetchCartItems);
+  // console.log(grabbedCartItems);
   console.log(grabbedProducts);
 
   return (
