@@ -79,6 +79,29 @@ export async function getAllCartItems() {
   }
 }
 
+// export async function createProduct({
+//   img_url,
+//   name,
+//   description,
+//   price,
+//   quantity,
+//   category,
+// }) {
+//   try {
+//     const { data } = await axios.post("/api/products", {
+//       img_url,
+//       name,
+//       description,
+//       price,
+//       quantity,
+//       category,
+//     });
+//     return data;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 export async function addCartItem(quantity, productId, usersId) {
   try {
     console.log({
@@ -87,21 +110,17 @@ export async function addCartItem(quantity, productId, usersId) {
       usersId: usersId,
       ordersId: null,
     });
-    return await axios
-      .post("/api/carts/cartPost", {
-        quantity: quantity,
-        productId: productId,
-        usersId: usersId,
-        ordersId: null,
-      })
-      .then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    const { data } = await axios.post("/api/carts/cartPost", {
+      quantity: quantity,
+      productId: productId,
+      usersId: usersId,
+      ordersId: null,
+    });
+    // .then(
+    //   (response) => {
+    //     console.log(response);
+    //   },
+    return data;
   } catch (err) {
     console.error(err);
   }

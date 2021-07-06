@@ -16,30 +16,19 @@ const {
   updateProduct,
   deleteProduct,
   productByCategory,
-  createCartItem,
-  getAllCartItems,
-  getCartByUser,
-  deleteCartItems,
-  createCart,
-  updateCartItemWithQuantity,
-  updateCartItemWithOrderId,
 } = require("./index");
 ``;
-
 async function buildTables() {
   try {
     console.log("Starting to drop tables...");
     client.query(`
-        DROP TABLE IF EXISTS carts;
+     DROP TABLE IF EXISTS carts;
         DROP TABLE IF EXISTS products;
         DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS users;
-        
-      `);
+         `);
     console.log("Finished dropping tables!");
-
     console.log("Starting to build tables...");
-
     await client.query(`
     
         CREATE TABLE users(
@@ -58,6 +47,7 @@ async function buildTables() {
           id SERIAL PRIMARY KEY,
           date_ordered VARCHAR(255) NOT NULL,
           total_price DECIMAL,
+          "usersId" INTEGER REFERENCES users(id)
         );
         CREATE TABLE products (
             id SERIAL PRIMARY KEY,
@@ -69,26 +59,22 @@ async function buildTables() {
             category text,
             inventory INTEGER DEFAULT 0
       );
-        CREATE TABLE carts(
+      CREATE TABLE carts(
           id SERIAL PRIMARY KEY,
-          quantity INTEGER,
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
           "usersId" INTEGER REFERENCES users(id),
-          
+          UNIQUE("productId", "orderId", "usersId")
         );
       `);
-
     console.log("Finished building tables!");
   } catch (error) {
     throw error;
   }
 }
-
 async function populateInitialProducts() {
   try {
     console.log("starting to create products...");
-
     const productsToCreate = [
       {
         id: 1,
@@ -121,7 +107,6 @@ async function populateInitialProducts() {
         inventory: 30,
       },
     ];
-
     const theProducts = await Promise.all(
       productsToCreate.map((product) => createProduct(product))
     );
@@ -131,7 +116,6 @@ async function populateInitialProducts() {
     throw error;
   }
 }
-
 async function populateInitialUsers() {
   try {
     console.log("starting to create users...");
@@ -175,43 +159,35 @@ async function populateInitialUsers() {
     throw error;
   }
 }
-
 async function populateInitialOrders() {
   try {
     console.log("starting to create orders...");
     const ordersToCreate = [
       {
-        // quantity: 2,
         date_ordered: "11/22/2020",
         total_price: 32.99,
       },
       {
-        // quantity: 3,
         date_ordered: "05/04/2021",
         total_price: 23.1,
       },
       {
-        // quantity: 1,
         date_ordered: "08/15/2021",
         total_price: 38.85,
       },
     ];
-
     const theOrders = await Promise.all(
       ordersToCreate.map((order) => createOrder(order))
     );
-
     console.log("orders Created: ", theOrders);
     console.log("Finished creating orders.");
   } catch (error) {
     throw error;
   }
 }
-
 async function rebuildDB() {
   try {
     client.connect();
-
     await buildTables();
     await populateInitialProducts();
     await populateInitialUsers();
@@ -222,81 +198,62 @@ async function rebuildDB() {
     throw error;
   }
 }
-
 async function testDB() {
   try {
     console.log("starting to build tables in rebuildDB");
     await buildTables();
-
     console.log("starting to populate initial products in rebuildDB");
     await populateInitialProducts();
-
     console.log("starting to populate initial Users in rebuildDB");
     await populateInitialUsers();
-
     console.log("starting to populate initial orders in rebuildDB");
     await populateInitialOrders();
-
     console.log("Starting to test database...");
-
     console.log("Calling getAllUsers");
     const users = await getAllUsers();
     console.log("Result:", users);
-
     console.log("Calling getUserByEmail with 1");
     const singleEmail = await getUserByEmail(users[1].email);
     console.log("Result:", singleEmail);
-
     console.log("Calling getUserById with 1");
     const singleUser = await getUserById(1);
     console.log("Result:", singleUser);
-
     console.log("Calling update user");
     const updatedUserData = await updateUser(users[0].id, {
       username: "hilly",
     });
     console.log("Result:", updatedUserData);
-
     const username = await getUserByUsername(users[1].username);
     console.log("Result:", username);
     console.log("Calling getUserByUsername with 1");
-
     console.log("Starting to test products...");
-
     console.log("Calling getAllProducts");
     const products = await getAllProducts();
     console.log("Result:", products);
-
     console.log("Calling getProductById with 1");
     const singleProduct = await getProductById(1);
     console.log("Result:", singleProduct);
-
     console.log("Calling updateProduct on product[0]");
     const updatedProduct = await updateProduct(products[0].id, {
       name: "New Product",
       description: "Updated description",
     });
     console.log("Result:", updatedProduct);
-
     // console.log("Testing delete product");
     // const deleteProduct = await deleteProduct(2);
     // console.log("Result: product deleted", deleteProduct);
-
     console.log("Calling getProductByCategory");
     const productsWithVodka = await productByCategory("vodka");
     console.log("Result:", productsWithVodka);
-
     console.log("Calling getOrderById");
     const orderId = await getOrderById(2);
     console.log("Result:", orderId);
-
     console.log("Finished database tests!");
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
   }
 }
-
 rebuildDB()
   .then(testDB)
   .catch(console.error)
