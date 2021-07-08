@@ -3,6 +3,9 @@ import {
   AppBar,
   Toolbar,
   IconButton,
+  Tab,
+  Tabs,
+  Login,
   Badge,
   MenuItem,
   Menu,
@@ -17,11 +20,17 @@ const Navbar = () => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedTab, setSelectedTab] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleChange = (event, newValue) => {
+    // history.push(`/${tabNameToIndex[newValue]}`);
+    // setSelectedTab(newValue);
   };
 
   const handleMenuClose = () => {
@@ -65,19 +74,30 @@ const Navbar = () => {
             </IconButton>
           </div>
 
+          <Tabs value={selectedTab} onChange={handleChange}>
+            <Tab label='Login' />
+          </Tabs>
+
           <IconButton
             edge='end'
             aria-label='account of current user'
             aria-haspopup='true'
             onClick={handleProfileMenuOpen}
             color='inherit'>
+
             <AccountCircle />
+            
           </IconButton>
         </Toolbar>
       </AppBar>
+      
+
+
       {renderMenu}
     </>
   );
 };
+
+
 
 export default Navbar;
