@@ -1,28 +1,18 @@
-import React from 'react'
+import { makeStyles } from "@material-ui/core";
+import React from "react";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    marginTop: "100px",
+    justifyContent: "center",
+  },
+}));
 const Login = () => {
-    return(
-      <div> Login </div>
-    );
-}
+  const classes = useStyles();
+  return <div className={classes.root}> This is Login Page! </div>;
+};
 
-export default Login
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Login;
 
 // import {
 //   Button,
