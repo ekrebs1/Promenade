@@ -1,16 +1,122 @@
-import { makeStyles } from "@material-ui/core";
-import React from "react";
+import {
+  Button,
+  TextField,
+  Typography,
+  Container,
+  makeStyles,
+} from "@material-ui/core";
+import axios from "axios";
+import { useState } from "react";
+//import { loginUser } from "../api";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { storeCurrentUser } from "../auth";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    marginTop: "100px",
-    justifyContent: "center",
-  },
-}));
+
 const Login = () => {
   const classes = useStyles();
-  return <div className={classes.root}> This is Login Page! </div>;
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
+  const loginUser = async () => {
+    return await axios
+      .post('/api/users/login', {
+        username,
+        password,
+      })
+      .then(({ data: { token } }) => {
+        if (token) {
+          storeCurrentUser();
+          window.location.href = '/api/home';
+        } else {
+          console.error('Something went wrong');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.error('Something went wrong');
+      });
+  }
+
+  const useStyles = makeStyles(() => ({
+    root: {
+      marginTop: "100px",
+      justifyContent: "center",
+    },
+  }));
+  
+const onFormSubmit = (event) => {
+  event.preventDefault();
+  loginUser(username, password);
 };
+
+
+
+
+return (
+  <div className={classes.root}>
+    <Container>
+      <Typography
+        className={classes.title}
+        variant='h6'
+        color='secondary'
+        component='h2'
+        align='center'
+        gutterBottom>
+      </Typography>
+      <Typography
+        className={classes.subTitle}
+        variant='h1'
+        color='secondary'
+        component='h2'
+        align='center'
+        gutterBottom>
+        Please log in to your account.
+      </Typography>
+      {errorMessage}
+      <form
+        noValidate
+        autoComplete='off'
+        onSubmit={onFormSubmit}
+        className={classes.form}>
+        <TextField
+          className={classes.textField}
+          required
+          id='outlined-required'
+          label='Username'
+          variant='outlined'
+          color='#F9DDD2'
+          defaultValue='Required'
+          onInput={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
+        <TextField
+          className={classes.textField}
+          id='outlined-required'
+          type='password'
+          label='Password'
+          variant='outlined'
+          //color='secondary'
+          defaultValue='Password'
+          onInput={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
+        <Button
+          className={classes.btn}
+          type='submit'
+          color='secondary'
+          variant='contained'
+          endIcon={<KeyboardArrowRightIcon />}>
+          Login
+        </Button>
+      </form>
+    </Container>
+  </div>
+);
+        };
+
+
 
 export default Login;
 

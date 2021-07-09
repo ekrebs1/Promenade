@@ -203,3 +203,23 @@ export async function createNewProduct(
     throw error;
   }
 }
+
+export async function loginUser(username, password) {
+  return await axios
+    .post('/api/users/login', {
+      username,
+      password,
+    })
+    .then(({ data: { token } }) => {
+      if (token) {
+        storeCurrentUser();
+        window.location.href = '/api/home';
+      } else {
+        console.error('Something went wrong');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      console.error('Something went wrong');
+    });
+}
