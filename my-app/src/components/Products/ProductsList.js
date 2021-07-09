@@ -79,7 +79,7 @@ const ProductsList = ({ onAddToCart }) => {
     <div className={classes.card}>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid container spacing={4} className={classes.grid} justify='center'>
+        <Grid container spacing={4} className={classes.grid} justify="center">
           {grabbedProducts?.map((product, index) => {
             return <Product product={product} onAddToCart={handleAddToCart} />;
           })}

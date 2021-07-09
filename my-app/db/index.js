@@ -16,8 +16,17 @@ async function createProduct({
   inventory,
 }) {
   try {
+    console.log(
+      name,
+      description,
+      image_url,
+      price,
+      quantity,
+      category,
+      inventory
+    );
     const {
-      rows: [product],
+      rows: [products],
     } = await client.query(
       `
         INSERT INTO products (name, description, image_url, price, quantity, category, inventory)
@@ -26,8 +35,8 @@ async function createProduct({
       `,
       [name, description, image_url, price, quantity, category, inventory]
     );
-
-    return product;
+    console.log("helper method in DB!!!!!!!!!!!!!!!!");
+    return products;
   } catch (error) {
     throw error;
   }

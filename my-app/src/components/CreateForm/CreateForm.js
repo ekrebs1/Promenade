@@ -1,31 +1,36 @@
 import React, { useState } from "react";
-import { createNewProduct } from "../api";
+import { createProduct } from "../../api/index";
 import "./form.css";
 
 const CreateForm = () => {
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
-  const [quanitity, setQuantity] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+  const [image_url, setImage_url] = useState(null);
   const [category, setCategory] = useState(null);
   const [inventory, setInventory] = useState(null);
 
-  async function handleSubmit() {
-    await createProduct(
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const product = {
       name,
       description,
       price,
       quantity,
+      image_url,
       category,
-      inventory
-    );
+      inventory,
+    };
+    console.log(product, "handle submit");
+    await createProduct(product);
   }
 
   return (
     <div className="form-container">
       <h1 className="form-header">CREATE A PRODUCT</h1>
       <div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             placeholder="Name..."
             required
@@ -35,34 +40,34 @@ const CreateForm = () => {
           <input
             placeholder="Description"
             required
-            onChange={(event) => setMainLink(event.target.value)}
+            onChange={(event) => setDescription(event.target.value)}
           />
 
           <input
             placeholder="Price in Dollars"
             required
-            onChange={(event) => setComment(event.target.value)}
+            onChange={(event) => setPrice(event.target.value)}
           />
 
           <input
-            placeholder="Quantity"
+            placeholder="Image"
             required
-            onChange={(event) => setTags(event.target.value)}
+            onChange={(event) => setImage_url(event.target.value)}
           />
 
           <input
             placeholder="Category"
             required
-            onChange={(event) => setTags(event.target.value)}
+            onChange={(event) => setCategory(event.target.value)}
           />
 
           <input
             placeholder="Inventory"
             required
-            onChange={(event) => setTags(event.target.value)}
+            onChange={(event) => setInventory(event.target.value)}
           />
 
-          <button className="sub-btn" onClick={handleSubmit}>
+          <button className="sub-btn" type="submit">
             Add Product
           </button>
         </form>
