@@ -23,31 +23,40 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar position='fixed' color='inherit'>
+      <AppBar position="fixed" color="inherit">
         <Toolbar>
           <Typography>
-            <img src={logo} alt='Last Call' height='50px' />
+            <img src={logo} alt="Last Call" height="50px" />
             Last Call
           </Typography>
 
           <Button>
-            <a href='/' style={{ textDecoration: "none" }}>
+            <a href="/" style={{ textDecoration: "none" }}>
               Home
             </a>
           </Button>
           <Button>
-            <a href='/all-products' style={{ textDecoration: "none" }}>
+            <a href="/all-products" style={{ textDecoration: "none" }}>
               Shop
             </a>
           </Button>
+          {/* {isAdmin ? (
+            <Button>
+              <a href="/users" style={{ textDecoration: "none" }}>
+                Users
+              </a>
+            </Button>
+          ) : (
+            ""
+          )} */}
           <Button>
-            <a href='/login' style={{ textDecoration: "none" }}>
+            <a href="/login" style={{ textDecoration: "none" }}>
               Login
             </a>
           </Button>
 
-          <IconButton aria-label='Show cart items' color='inherit'>
-            <Badge badgeContent={2} color='secondary'>
+          <IconButton aria-label="Show cart items" color="inherit">
+            <Badge badgeContent={2} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>

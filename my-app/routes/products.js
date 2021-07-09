@@ -40,7 +40,15 @@ productsRouter.patch("/:id", async (req, res, next) => {
 });
 
 productsRouter.post("/", async (req, res, next) => {
-  const { name, description, price, quantity, category, inventory } = req.body;
+  const {
+    name,
+    description,
+    price,
+    quantity,
+    category,
+    inventory,
+    image_url,
+  } = req.body;
   const newProduct = {};
   try {
     (newProduct.name = name),
@@ -48,8 +56,9 @@ productsRouter.post("/", async (req, res, next) => {
       (newProduct.price = price),
       (newProduct.quantity = quantity),
       (newProduct.category = category),
-      (newProduct.inventory = inventory);
-
+      (newProduct.inventory = inventory),
+      (newProduct.image_url = image_url);
+    console.log(newProduct, "NEW PRODUCT");
     const theNewProduct = await createProduct(newProduct);
 
     res.send(theNewProduct);

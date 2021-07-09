@@ -54,10 +54,10 @@ async function buildTables() {
             name varchar(30) UNIQUE,
             description VARCHAR(255),
             image_url TEXT NOT NULL,
-            price DECIMAL,
+            price varchar(30),
             quantity INTEGER,
             category text,
-            inventory INTEGER DEFAULT 0
+            inventory varchar(30)
       );
       CREATE TABLE carts(
           id SERIAL PRIMARY KEY,
@@ -81,30 +81,30 @@ async function populateInitialProducts() {
         name: "Product 1",
         description: "some type of alcohol",
         image_url: "https://picsum.photos/200/300",
-        price: 12.99,
+        price: "12.99",
         quantity: 2,
         category: "vodka",
-        inventory: 21,
+        inventory: "21",
       },
       {
         id: 2,
         name: "Product 2",
         description: "another alcohol",
         image_url: "https://picsum.photos/200/300",
-        price: 22.5,
+        price: "22.5",
         quantity: 1,
         category: "whiskey",
-        inventory: 14,
+        inventory: "14",
       },
       {
         id: 3,
         name: "Product 3",
         description: "some description",
         image_url: "https://picsum.photos/200/300",
-        price: 14.0,
+        price: "14.0",
         quantity: 2,
         category: "gin",
-        inventory: 30,
+        inventory: "30",
       },
     ];
     const theProducts = await Promise.all(

@@ -42,15 +42,15 @@ export async function deleteProduct(id) {
   }
 }
 
-export async function createProduct(
+export async function createProduct({
   name,
   description,
   image_url,
   price,
   quantity,
   category,
-  inventory
-) {
+  inventory,
+}) {
   try {
     const { data } = await axios.post("/api/products", {
       name,
@@ -61,7 +61,7 @@ export async function createProduct(
       category,
       inventory,
     });
-
+    console.log(data, "helper method in API!!!!!!!!!!!!!!!!");
     return data;
   } catch (error) {
     throw error;
@@ -181,23 +181,10 @@ export async function createOrder(usersId, date_ordered, total_price) {
   }
 }
 
-export async function createNewProduct(
-  name,
-  description,
-  price,
-  quantity,
-  category,
-  inventory
-) {
+export async function updateUser(userId, fields = {}) {
   try {
-    const { data } = await axios.post("/api/products", {
-      name,
-      description,
-      price,
-      quantity,
-      category,
-      inventory,
-    });
+    const { data } = await axios.patch(`/api/users`);
+
     return data;
   } catch (error) {
     throw error;
