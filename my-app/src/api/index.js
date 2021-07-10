@@ -1,4 +1,5 @@
 import axios from "axios";
+import { storeCurrentUser } from "../auth";
 
 //PRODUCTS************
 
