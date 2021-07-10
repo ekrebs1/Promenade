@@ -6,6 +6,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import axios from "axios";
+import React from "react";
 import { useState } from "react";
 //import { loginUser } from "../api";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -13,7 +14,6 @@ import { storeCurrentUser } from "../auth";
 
 
 const Login = () => {
-  const classes = useStyles();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,18 +37,48 @@ const Login = () => {
       });
   }
 
-  const useStyles = makeStyles(() => ({
-    root: {
-      marginTop: "100px",
-      justifyContent: "center",
-    },
-  }));
   
 const onFormSubmit = (event) => {
   event.preventDefault();
   loginUser(username, password);
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+  btn: {
+    fontSize: 20,
+    backgroundColor: "#E2725A",
+    "&:hover": {
+      backgroundColor: "#94ACBF",
+    },
+  },
+  title: {
+    marginTop: 20,
+
+    color: "#79AEB2",
+    fontSize: 40,
+  },
+  subTitle: {
+    color: "#79AEB2",
+    fontSize: 30,
+  },
+  textField: {
+    color: "#F9DDD2",
+    backgroundColor: "#F9DDD2",
+  },
+  form: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "30vh",
+  },
+}));
+const classes = useStyles();
 
 
 
