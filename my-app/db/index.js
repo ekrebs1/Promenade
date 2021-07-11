@@ -391,7 +391,7 @@ async function createUser({
   state,
   zip,
   isAdmin = false,
-  isUser = false,
+  isUser = true,
 }) {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -419,7 +419,7 @@ async function createUser({
 async function getAllUsers() {
   try {
     const { rows } = await client.query(`
-        SELECT id, username, email
+        SELECT id, username, email, password
         FROM users;
       `);
 
@@ -496,6 +496,25 @@ async function updateUser(userId, fields = {}) {
   }
 }
 
+// async function getUserByUsername(username) {
+//   try {
+//     const {
+//       rows: [user],
+//     } = await client.query(
+//       `
+//       SELECT *
+//       FROM users
+//       WHERE username=$1
+//         `,
+//       [username]
+//     );
+//     return user;
+//   } catch (error) {
+//     console.error("could not get user by username", error);
+//     throw error;
+//   }
+// }
+
 async function getUserByUsername(username) {
   try {
     const {
@@ -508,6 +527,7 @@ async function getUserByUsername(username) {
         `,
       [username]
     );
+    // delete user.password;
     return user;
   } catch (error) {
     console.error("could not get user by username", error);

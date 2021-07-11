@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { ProductsList, Navbar, Home, CreateForm, Users } from "./components";
-import Login from "./components/Login";
+import {
+  ProductsList,
+  Navbar,
+  Home,
+  CreateForm,
+  Users,
+  Login,
+} from "./components";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -14,26 +21,27 @@ const useStyles = makeStyles({
 
 const App = (totalItems, isAdmin = false) => {
   const classes = useStyles();
-
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <Navbar />
-        <div className="content">
+        <div className='content'>
           <Switch>
-            <Route exact path="/">
+            <Route exact path='/'>
               <Home />
             </Route>
-            <Route path="/login">
-              <Login />
+            <Route path='/login'>
+              <Login username={setUsername} password={setPassword} />
             </Route>
-            <Route path="/all-products">
+            <Route path='/all-products'>
               <>
                 {isAdmin ? <CreateForm /> : ""}
                 <ProductsList />
               </>
             </Route>
-            <Route path="/users">{isAdmin ? <Users /> : ""}</Route>
+            <Route path='/users'>{isAdmin ? <Users /> : ""}</Route>
           </Switch>
         </div>
       </div>

@@ -130,6 +130,7 @@ async function populateInitialUsers() {
         state: "TX",
         zip: "12345",
         isAdmin: true,
+        isUser: true,
       },
       {
         email: "newbie@gmail.com",
@@ -140,6 +141,7 @@ async function populateInitialUsers() {
         city: "mandeville",
         state: "LA",
         zip: "70448",
+        isUser: true,
       },
       {
         email: "chris.scott@gmail.com",
@@ -150,6 +152,7 @@ async function populateInitialUsers() {
         city: "covington",
         state: "LA",
         zip: "70447",
+        isUser: true,
       },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
@@ -223,9 +226,10 @@ async function testDB() {
       username: "hilly",
     });
     console.log("Result:", updatedUserData);
+    console.log("Calling getUserByUsername with 1");
     const username = await getUserByUsername(users[1].username);
     console.log("Result:", username);
-    console.log("Calling getUserByUsername with 1");
+
     console.log("Starting to test products...");
     console.log("Calling getAllProducts");
     const products = await getAllProducts();
