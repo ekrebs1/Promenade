@@ -8,7 +8,7 @@ const {
   getUserByUsername,
   updateUser,
 } = require("../db");
-
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 // const { requireUser, requireAdmin } = require("./utils");
 const { JWT_SECRET } = process.env;
@@ -22,7 +22,7 @@ usersRouter.post("/register", async (req, res, next) => {
     if (_user) {
       throw Error("Username already exists.");
     }
-    if (password.length < 8) {
+    if (password.length < 6) {
       throw Error("Password must be at least 8 characters long.");
     }
     const user = await createUser({
@@ -70,29 +70,31 @@ usersRouter.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUserByUsername(username);
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    console.log(user, "Routes''''''");
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (isPasswordMatch) {
-      const token = jwt.sign(
-        {
-          id: user.id,
-          username,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "1w",
-        }
-      );
-      res.send({ message: "you're logged in!", token });
+      if (passwordMatch) {
+        const token = jwt.sign(
+          { id: user.id, username: user.username },
+          process.env.JWT_SECRET
+        );
+
+        res.send({ message: "You are now logged in!", token, user });
+      } else {
+        next({
+          name: "InvalidInfo",
+          message: "Invalid credentials, please check username and password",
+        });
+      }
     } else {
       next({
-        name: "IncorrectCredentialsError",
-        message: "Username or password is incorrect",
+        name: "InvalidInfo",
+        message: "Invalid credentials, please check username and password",
       });
     }
-  } catch (error) {
-    console.log(error);
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 

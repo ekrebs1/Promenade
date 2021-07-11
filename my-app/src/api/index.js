@@ -194,20 +194,20 @@ export async function updateUser(userId, fields = {}) {
 
 export async function loginUser(username, password) {
   return await axios
-    .post('/api/users/login', {
+    .post("/api/users/login", {
       username,
       password,
     })
     .then(({ data: { token } }) => {
       if (token) {
         storeCurrentUser();
-        window.location.href = '/api/home';
+        window.location.href = "/api/home";
       } else {
-        console.error('Something went wrong');
+        console.error("Something went wrong");
       }
     })
     .catch((error) => {
       console.log(error);
-      console.error('Something went wrong');
+      console.error("Something went wrong");
     });
 }
