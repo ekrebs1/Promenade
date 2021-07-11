@@ -80,29 +80,6 @@ export async function getAllCartItems() {
   }
 }
 
-// export async function createProduct({
-//   img_url,
-//   name,
-//   description,
-//   price,
-//   quantity,
-//   category,
-// }) {
-//   try {
-//     const { data } = await axios.post("/api/products", {
-//       img_url,
-//       name,
-//       description,
-//       price,
-//       quantity,
-//       category,
-//     });
-//     return data;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 export async function addCartItem(quantity, productId, usersId) {
   try {
     console.log({
@@ -190,24 +167,4 @@ export async function updateUser(userId, fields = {}) {
   } catch (error) {
     throw error;
   }
-}
-
-export async function loginUser(username, password) {
-  return await axios
-    .post("/api/users/login", {
-      username,
-      password,
-    })
-    .then(({ data: { token } }) => {
-      if (token) {
-        storeCurrentUser();
-        window.location.href = "/api/home";
-      } else {
-        console.error("Something went wrong");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      console.error("Something went wrong");
-    });
 }

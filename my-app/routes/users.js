@@ -22,9 +22,9 @@ usersRouter.post("/register", async (req, res, next) => {
     if (_user) {
       throw Error("Username already exists.");
     }
-    if (password.length < 6) {
-      throw Error("Password must be at least 8 characters long.");
-    }
+    // if (password.length < 6) {
+    //   throw Error("Password must be at least 8 characters long.");
+    // }
     const user = await createUser({
       email,
       username,
