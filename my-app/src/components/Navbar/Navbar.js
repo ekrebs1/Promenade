@@ -5,7 +5,7 @@ import {
   IconButton,
   Tab,
   Tabs,
-  // Login,
+  makeStyles,
   Badge,
   MenuItem,
   Menu,
@@ -14,29 +14,58 @@ import {
   Button,
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
+import Dropdown from "./Dropdown";
 
-import logo from "../../assets/LastCall_Logo.jpeg";
 // import useStyles from "./styles";
 
 const Navbar = () => {
-  // const classes = useStyles();
+  const useStyles = makeStyles(() => ({
+    header: {
+      width: "100%",
+    },
+    root: {
+      overflow: "visible",
+      width: "100%",
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center",
+      minHeight: "40px",
+      padding: "10px 15px 10px 50px",
+    },
+
+    navLink: {
+      margin: "0 10px",
+      padding: "0",
+      fontWeight: "200",
+      textTransform: "uppercase",
+      letterSpacing: "3.5px",
+      cursor: "pointer",
+      color: "#333",
+      textDecoration: "none",
+      // display: "flex",
+      // justifyContent: "flex-end",
+
+      "&:hover": {
+        opacity: "0.2",
+      },
+      div: {
+        padding: "0px 50px 0px 50px",
+      },
+    },
+  }));
+  const classes = useStyles();
 
   return (
     <>
-      <AppBar position="fixed" color="inherit">
-        <Toolbar>
-          <Typography>
-            <img src={logo} alt="Last Call" height="50px" />
-            Last Call
-          </Typography>
-
-          <Button>
-            <a href="/" style={{ textDecoration: "none" }}>
+      <AppBar position='fixed' color='inherit'>
+        <Toolbar className={classes.root}>
+          <Button className={classes.navLink}>
+            <a href='/' style={{ textDecoration: "none" }}>
               Home
             </a>
           </Button>
-          <Button>
-            <a href="/all-products" style={{ textDecoration: "none" }}>
+          <Button className={classes.navLink}>
+            <a href='/all-products' style={{ textDecoration: "none" }}>
               Shop
             </a>
           </Button>
@@ -49,17 +78,19 @@ const Navbar = () => {
           ) : (
             ""
           )} */}
-          <Button>
-            <a href="/login" style={{ textDecoration: "none" }}>
+          <Dropdown />
+          {/* <Button className={classes.navLink}>
+            <a href='/login' style={{ textDecoration: "none" }}>
               Login
-            </a>
-          </Button>
-
-          <IconButton aria-label="Show cart items" color="inherit">
-            <Badge badgeContent={2} color="secondary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+            </a> */}
+          {/* </Button> */}
+          <div className={classes.cart}>
+            <IconButton aria-label='Show cart items' color='inherit'>
+              <Badge badgeContent={2} color='secondary'>
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
     </>

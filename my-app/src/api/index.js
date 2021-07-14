@@ -70,6 +70,17 @@ export async function createProduct({
 }
 
 //CARTS*******
+export async function updateProductQuantity(productId, quantity, usersId) {
+  try {
+    const { data } = await axios.patch(`/api/carts/${productId}`, {
+      quantity,
+      usersId,
+    });
+    return data;
+  } catch (error) {
+    console.error("Error updating quantity");
+  }
+}
 
 export async function getAllCartItems() {
   try {
@@ -86,21 +97,16 @@ export async function addCartItem(quantity, productId, usersId) {
       quantity: quantity,
       productId: productId,
       usersId: usersId,
-      ordersId: null,
     });
-    const { data } = await axios.post("/api/carts/cartPost", {
+    const { data } = await axios.post("/api/carts", {
       quantity: quantity,
       productId: productId,
-      usersId: usersId,
-      ordersId: null,
+      token: usersId,
     });
-    // .then(
-    //   (response) => {
-    //     console.log(response);
-    //   },
+
     return data;
   } catch (err) {
-    console.error(err);
+    console.error("Error adding to cart");
   }
 }
 
@@ -113,13 +119,36 @@ export async function deleteCartItem(id) {
   }
 }
 
+export async function getCart(usersId) {
+  try {
+    const { data } = await axios.get("/api/carts", {
+      usersId,
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error getting cart");
+  }
+}
+
+export async function updateCartItemsQuantityMinus(id) {
+  try {
+    const { data } = await axios.patch(`api/cartItems/${id}/quantityMinus`);
+    return data;
+  } catch (error) {}
+}
+
+export async function updateCartItemsQuantityPlus(id) {
+  try {
+    const { data } = await axios.patch(`api/cartItems/${id}/quantityPlus`);
+    return data;
+  } catch (error) {}
+}
+
 export async function getUsersCurrentCartItems(usersId) {
   try {
     const { data } = await axios.get(`/api/carts/${usersId}`);
-    console.log(
-      data,
-      "THIS IS WHAT THE BACKEND IS RETURNING FRO CART ITEMS BY USERS"
-    );
+    console.log(data, "BACKEND DATA FOR THE CART ITEMS!!!!!!!");
     return data;
   } catch (error) {
     throw error;
@@ -159,12 +188,27 @@ export async function createOrder(usersId, date_ordered, total_price) {
   }
 }
 
-export async function updateUser(userId, fields = {}) {
+export async function updateUser(usersId, fields = {}) {
   try {
     const { data } = await axios.patch(`/api/users`);
 
     return data;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function myUserId(myToken) {
+  try {
+    const { data } = await axios.get(`/api/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myToken}`,
+      },
+    });
+    console.log(data, "THIS IS MY USER DATA API HELPER FUNCTION");
+    return data;
+  } catch (error) {
+    console.error(error, "ERROR CURRENT USER INFO API");
   }
 }
