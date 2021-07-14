@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { createProduct } from "../../api/index";
+import { updateProduct } from "../../api/index";
 import "./form.css";
 
-const CreateForm = () => {
-  const [name, setName] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [image_url, setImage_url] = useState(null);
-  const [category, setCategory] = useState(null);
+const EditInventory = () => {
+  // const [name, setName] = useState(null);
+  // const [description, setDescription] = useState(null);
+  // const [price, setPrice] = useState(null);
+  // const [quantity, setQuantity] = useState(null);
+  // const [image_url, setImage_url] = useState(null);
+  // const [category, setCategory] = useState(null);
   const [inventory, setInventory] = useState(null);
 
   async function handleSubmit(event) {
@@ -24,7 +24,6 @@ const CreateForm = () => {
     };
     console.log(product, "handle submit");
     await createProduct(product);
-    window.location.reload();
   }
 
   return (
@@ -77,4 +76,4 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
+export default EditInventory;

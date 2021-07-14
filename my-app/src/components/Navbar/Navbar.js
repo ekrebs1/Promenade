@@ -69,6 +69,7 @@ const Navbar = () => {
               Shop
             </a>
           </Button>
+<<<<<<< Updated upstream
           {/* {isAdmin ? (
             <Button>
               <a href="/users" style={{ textDecoration: "none" }}>
@@ -81,6 +82,16 @@ const Navbar = () => {
           <Dropdown />
           {/* <Button className={classes.navLink}>
             <a href='/login' style={{ textDecoration: "none" }}>
+=======
+          <Button>
+            <a href="/admin" style={{ textDecoration: "none" }}>
+              Users
+            </a>
+          </Button>
+
+          <Button>
+            <a href="/login" style={{ textDecoration: "none" }}>
+>>>>>>> Stashed changes
               Login
             </a> */}
           {/* </Button> */}

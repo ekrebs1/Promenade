@@ -1,81 +1,105 @@
-// import React, { useState } from "react";
-// import { updateUser } from "../../api/index";
-// import "./form.css";
+import React, { useState, useEffect } from "react";
+import { updateUser, getAllUsers } from "../../api/index";
 
-// const Users = () => {
-//   const [email, setName] = useState(null);
-//   const [description, setDescription] = useState(null);
-//   const [price, setPrice] = useState(null);
-//   const [quantity, setQuantity] = useState(0);
-//   const [image_url, setImage_url] = useState(null);
-//   const [category, setCategory] = useState(null);
-//   const [inventory, setInventory] = useState(null);
+import "./form.css";
 
-//   async function handleSubmit(event) {
-//     event.preventDefault();
-//     const user = {
-//       email,
-//       username,
-//       password,
-//       address,
-//       city,
-//       state,
-//       zip,
-//       isAdmin = false,
-//       isUser = false,
-//     };
-//     console.log(user, "handle submit");
-//     await updateUser(user);
-//   }
+const Users = () => {
+  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [address, setAdress] = useState(null);
+  const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
+  const [zip, setZip] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [isUser, setIsUser] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
 
-//   return (
-//     <div className="form-container">
-//       <h1 className="form-header">CREATE A PRODUCT</h1>
-//       <div>
-//         <form>
-//           <input
-//             placeholder="Name..."
-//             required
-//             onChange={(event) => setName(event.target.value)}
-//           />
+  useEffect(async () => {
+    const data = await getAllUsers();
+    console.log(data, "users data !!!!!!!!!!!!!!");
+  }, []);
 
-//           <input
-//             placeholder="Description"
-//             required
-//             onChange={(event) => setDescription(event.target.value)}
-//           />
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const user = {
+      email,
+      username,
+      password,
+      address,
+      city,
+      state,
+      zip,
+      isAdmin,
+      isUser,
+    };
+    console.log(user, "handle submit USERS");
+    await updateUser(user);
+  }
 
-//           <input
-//             placeholder="Price in Dollars"
-//             required
-//             onChange={(event) => setPrice(event.target.value)}
-//           />
+  return (
+    <div className="form-container">
+      <h1 className="form-header">UPDATE USER</h1>
+      <div>
+        <form>
+          <input
+            placeholder="email"
+            required
+            onChange={(event) => setEmail(event.target.value)}
+          />
 
-//           <input
-//             placeholder="Image"
-//             required
-//             onChange={(event) => setImage_url(event.target.value)}
-//           />
+          <input
+            placeholder="Username"
+            required
+            onChange={(event) => setUsername(event.target.value)}
+          />
 
-//           <input
-//             placeholder="Category"
-//             required
-//             onChange={(event) => setCategory(event.target.value)}
-//           />
+          <input
+            placeholder="Password"
+            required
+            onChange={(event) => setPassword(event.target.value)}
+          />
 
-//           <input
-//             placeholder="Inventory"
-//             required
-//             onChange={(event) => setInventory(event.target.value)}
-//           />
+          <input
+            placeholder="address"
+            required
+            onChange={(event) => setAdress(event.target.value)}
+          />
 
-//           <button className="sub-btn" onClick={handleSubmit}>
-//             Add Product
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
+          <input
+            placeholder="City"
+            required
+            onChange={(event) => setCity(event.target.value)}
+          />
 
-// export default CreateForm;
+          <input
+            placeholder="State"
+            required
+            onChange={(event) => setState(event.target.value)}
+          />
+          <input
+            placeholder="Zip"
+            required
+            onChange={(event) => setZip(event.target.value)}
+          />
+          <input
+            placeholder="isAdmin"
+            required
+            onChange={(event) => setIsAdmin(event.target.value)}
+          />
+          <input
+            placeholder="isUser"
+            required
+            onChange={(event) => setIsUser(event.target.value)}
+          />
+
+          <button className="sub-btn" onClick={handleSubmit}>
+            Update User
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Users;
