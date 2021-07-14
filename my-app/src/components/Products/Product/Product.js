@@ -8,13 +8,28 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core";
-import { AddShoppingCart } from "@material-ui/icons";
 
+import { AddShoppingCart } from "@material-ui/icons";
+import { addCartItem } from "../../../api";
+import { myUserId } from "../../../api";
 import useStyles from "./styles";
 
-const Product = ({ product, onAddToCart }) => {
+const Product = ({ product, index, userId, cart }) => {
+  const { name, description, price, image_url, quantity } = product;
+
   const classes = useStyles();
-  const handleAddToCart = () => onAddToCart(1, product.id);
+  const token = localStorage.getItem("token");
+
+  const handleAddtoCart = async () => {
+    if (myUserId) {
+      const newCartItem = await addCartItem(1, product.id, myUserId);
+      console.log(newCartItem);
+    }
+
+    localStorage.setItem("Cart", JSON.stringify(cart));
+
+    alert(`${name} added to cart!`);
+  };
   // console.log(product);
 
   const handleClick = () => {
@@ -49,7 +64,7 @@ const Product = ({ product, onAddToCart }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
-        <IconButton aria-label='Add to Cart' onClick={handleAddToCart}>
+        <IconButton aria-label='Add to Cart' onClick={handleAddtoCart}>
           <AddShoppingCart />
         </IconButton>
       </CardActions>

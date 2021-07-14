@@ -243,9 +243,7 @@ async function testDB() {
       description: "Updated description",
     });
     console.log("Result:", updatedProduct);
-    // console.log("Testing delete product");
-    // const deleteProduct = await deleteProduct(2);
-    // console.log("Result: product deleted", deleteProduct);
+
     console.log("Calling getProductByCategory");
     const productsWithVodka = await productByCategory("vodka");
     console.log("Result:", productsWithVodka);

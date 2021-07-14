@@ -10,32 +10,32 @@ const productsRouter = require("./products");
 const ordersRouter = require("./orders");
 const cartsRouter = require("./carts");
 
-// apiRouter.use(async (req, res, next) => {
-//   const prefix = "Bearer ";
-//   const auth = req.header("Authorization");
+apiRouter.use(async (req, res, next) => {
+  const prefix = "Bearer ";
+  const auth = req.header("Authorization");
 
-//   if (!auth) {
-//     next();
-//   } else if (auth.startsWith(prefix)) {
-//     const token = auth.slice(prefix.length);
+  if (!auth) {
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
 
-//     try {
-//       const parsedToken = jwt.verify(token, JWT_SECRET);
-//       const id = parsedToken && parsedToken.id;
-//       if (id) {
-//         req.user = await getUserById(id);
-//         next();
-//       }
-//     } catch ({ name, message }) {
-//       next({ name, message });
-//     }
-//   } else {
-//     next({
-//       name: "AuthorizationError",
-//       message: `No token authorization header.`,
-//     });
-//   }
-// });
+    try {
+      const parsedToken = jwt.verify(token, JWT_SECRET);
+      const id = parsedToken && parsedToken.id;
+      if (id) {
+        req.user = await getUserById(id);
+        next();
+      }
+    } catch ({ name, message }) {
+      next({ name, message });
+    }
+  } else {
+    next({
+      name: "AuthorizationError",
+      message: `No token authorization header.`,
+    });
+  }
+});
 
 apiRouter.use("/users", usersRouter);
 apiRouter.use("/products", productsRouter);

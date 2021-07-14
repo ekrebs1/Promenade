@@ -61,7 +61,7 @@ async function getProductById(id) {
 async function getAllProducts() {
   try {
     const { rows: id } = await client.query(`
-        SELECT id 
+        SELECT id
         FROM products;
       `);
 
@@ -73,6 +73,7 @@ async function getAllProducts() {
     throw error;
   }
 }
+
 async function updateProduct(productId, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
@@ -255,17 +256,17 @@ const deleteOrder = async (id) => {
 
 //CARTS*********************
 
-async function createCartItem(quantity, productId, userId) {
+async function createCartItem(quantity, productId, usersId) {
   try {
     const {
       rows: [cart],
     } = await client.query(
       `
-      INSERT INTO cart(quantity,"productId", "userId")
+      INSERT INTO cart(quantity,"productId", "usersId")
       VALUES ($1, $2, $3)
       RETURNING *
     `,
-      [quantity, productId, userId]
+      [quantity, productId, usersId]
     );
     return cart;
   } catch (error) {
@@ -306,24 +307,6 @@ async function getCartByUser(usersId) {
     throw error;
   }
 }
-// async function addCartProductsToOrder({ orderId, productId }) {
-//   try {
-//     const {
-//       rows: [cart],
-//     } = await client.query(
-//       `
-//       INSERT INTO cart("orderId", "productId")
-//       VALUES($1, $2)
-//       RETURNING *;
-//     `,
-//       [orderId, productId]
-//     );
-
-//     return cart;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
 
 async function updateCartItemWithQuantity({ id, quantity }) {
   try {
@@ -430,7 +413,7 @@ async function getAllUsers() {
   }
 }
 
-async function getUserById(userId) {
+async function getUserById(usersId) {
   try {
     const {
       rows: [user],
@@ -438,7 +421,7 @@ async function getUserById(userId) {
       `
       SELECT id, username, email
       FROM users
-      WHERE id=${userId}
+      WHERE id=${usersId}
         `
     );
 
@@ -469,7 +452,7 @@ async function getUserByEmail(email) {
   }
 }
 
-async function updateUser(userId, fields = {}) {
+async function updateUser(usersId, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
@@ -483,37 +466,18 @@ async function updateUser(userId, fields = {}) {
         `
         UPDATE users
         SET ${setString}
-        WHERE id=${userId}
+        WHERE id=${usersId}
         RETURNING *;
       `,
         Object.values(fields)
       );
     }
-    return await getUserById(userId);
+    return await getUserById(usersId);
   } catch (error) {
     console.error("could not update user", error);
     throw error;
   }
 }
-
-// async function getUserByUsername(username) {
-//   try {
-//     const {
-//       rows: [user],
-//     } = await client.query(
-//       `
-//       SELECT *
-//       FROM users
-//       WHERE username=$1
-//         `,
-//       [username]
-//     );
-//     return user;
-//   } catch (error) {
-//     console.error("could not get user by username", error);
-//     throw error;
-//   }
-// }
 
 async function getUserByUsername(username) {
   try {

@@ -47,8 +47,6 @@ ordersRouter.post("/:orderId/products", async (req, res, next) => {
   }
 });
 
-// ordersRouter.patch("/", async (req, res, next) => {});
-
 ordersRouter.delete(
   "/:orderId",
   // requireUser,

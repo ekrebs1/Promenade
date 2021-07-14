@@ -9,8 +9,10 @@ const {
   updateUser,
 } = require("../db");
 require("dotenv").config();
+
 const jwt = require("jsonwebtoken");
-// const { requireUser, requireAdmin } = require("./utils");
+
+const { requireUser, requireAdmin } = require("./utils");
 const { JWT_SECRET } = process.env;
 const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
@@ -61,6 +63,7 @@ usersRouter.post("/register", async (req, res, next) => {
 
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
+  
 
   if (!username || !password) {
     next({
@@ -70,31 +73,31 @@ usersRouter.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUserByUsername(username);
-    console.log(user, "Routes''''''");
-    if (user) {
-      const passwordMatch = await bcrypt.compare(password, user.password);
 
-      if (passwordMatch) {
-        const token = jwt.sign(
-          { id: user.id, username: user.username },
-          process.env.JWT_SECRET
-        );
-
-        res.send({ message: "You are now logged in!", token, user });
-      } else {
-        next({
-          name: "InvalidInfo",
-          message: "Invalid credentials, please check username and password",
-        });
-      }
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    console.log(user);
+    if (isPasswordMatch) {
+      
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1w",
+        }
+      );
+      res.send({ message: "you're logged in!", token });
     } else {
       next({
-        name: "InvalidInfo",
-        message: "Invalid credentials, please check username and password",
+        name: "IncorrectCredentialsError",
+        message: "Username or password is incorrect",
       });
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 });
 
@@ -142,18 +145,14 @@ usersRouter.patch(
   }
 );
 
-usersRouter.get(
-  "/me",
-  // requireUser,
-  async (req, res, next) => {
-    try {
-      res.send(req.user);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send(req.user);
+  } catch (error) {
+    console.error(error, "COULD NOT GET USER FROM ME ROUTE!");
+    next(error);
   }
-);
+});
 
 usersRouter.get(
   "/",
