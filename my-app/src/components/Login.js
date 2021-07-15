@@ -4,6 +4,7 @@ import {
   Typography,
   Container,
   makeStyles,
+  formatMs,
 } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
@@ -11,10 +12,11 @@ import { useState } from "react";
 //import { loginUser } from "../api";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
-const Login = () => {
+const Login = ({ setIsAdmin, isAdmin }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
+
   const loginUser = async () => {
     return await axios
       .post("/api/users/login", {
@@ -24,7 +26,7 @@ const Login = () => {
       .then(({ data: { token } }) => {
         if (token) {
           localStorage.setItem("token", JSON.stringify(token));
-          window.location.href = "/home";
+          window.location.href = "/";
         } else {
           console.error("Incorrect Login!!");
         }
@@ -42,10 +44,16 @@ const Login = () => {
 
   const useStyles = makeStyles((theme) => ({
     root: {
+      paddingTop: "100px",
+      display: "block",
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
         width: "25ch",
       },
+    },
+    form: {
+      display: "block",
+      paddingTop: "100px",
     },
     btn: {
       fontSize: 20,
@@ -61,8 +69,9 @@ const Login = () => {
       fontSize: 40,
     },
     subTitle: {
-      color: "#79AEB2",
+      color: "black",
       fontSize: 30,
+      fontFamily: "anton",
     },
     textField: {
       color: "#F9DDD2",
@@ -94,7 +103,7 @@ const Login = () => {
           component='h2'
           align='center'
           gutterBottom>
-          Please log in to your account.
+          Hi There! Please enter your Username and Password.
         </Typography>
         {errorMessage}
         <form

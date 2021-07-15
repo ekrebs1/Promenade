@@ -15,10 +15,10 @@ import { getAllProducts } from "./api";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles({
-  gridContainer: {
-    paddingLeft: "40px",
-    paddingRight: "40px",
-  },
+  // gridContainer: {
+  //   paddingLeft: "40px",
+  //   paddingRight: "40px",
+  // },
 });
 
 const App = () => {
@@ -84,10 +84,10 @@ const App = () => {
             </Route>
             <Route path='/login'>
               <Login
-                username={setUsername}
-                password={setPassword}
-                // currentUser={currentUser}
-                setCurrentUserId={setCurrentUserId}
+                // username={setUsername}
+                // password={setPassword}
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
               />
             </Route>
             <Route path='/register'>
@@ -100,7 +100,7 @@ const App = () => {
                 state={setState}
                 zip={setZip}
                 currentUser={currentUser}
-                setCurrentUserId={setCurrentUserId}
+                setCurrentUser={setCurrentUser}
               />
             </Route>
             <Route path='/carts'>
@@ -111,6 +111,9 @@ const App = () => {
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
               />
+            </Route>
+            <Route exact path='/admin'>
+              <CreateForm />
             </Route>
             <Route path='/all-products'>
               <>

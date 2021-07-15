@@ -15,11 +15,9 @@ import {
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import Dropdown from "./Dropdown";
-// import { Login, Register } from "c";
+import Admin from "./Admin";
 
-// import useStyles from "./styles";
-
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
   const useStyles = makeStyles(() => ({
     header: {
       width: "100%",
@@ -38,6 +36,7 @@ const Navbar = () => {
       margin: "0 10px",
       padding: "0",
       fontWeight: "200",
+      fontSize: "17px",
       textTransform: "uppercase",
       letterSpacing: "3.5px",
       cursor: "pointer",
@@ -55,18 +54,74 @@ const Navbar = () => {
     },
   }));
   const classes = useStyles();
-
+  // if (!isAdmin) {
+  //   return (
+  //     <>
+  //       <AppBar position='fixed' color='inherit'>
+  //         <Toolbar className={classes.root}>
+  //           <Typography
+  //             variant='h3'
+  //             style={{
+  //               fontFamily: "anton",
+  //               color: "black",
+  //               textShadow: "3px 3px 0px #c1c1c1",
+  //             }}>
+  //             Last Call
+  //           </Typography>
+  //           <Button className={classes.navLink}>
+  //             <a href='/' style={{ textDecoration: "none", color: "black" }}>
+  //               Home
+  //             </a>
+  //           </Button>
+  //           <Button className={classes.navLink}>
+  //             <a
+  //               href='/all-products'
+  //               style={{ textDecoration: "none", color: "black" }}>
+  //               Shop
+  //             </a>
+  //           </Button>
+  //           {/* {isAdmin ? (
+  //           <Button>
+  //             <a href="/users" style={{ textDecoration: "none" }}>
+  //               Users
+  //             </a>
+  //           </Button>
+  //         ) : (
+  //           ""
+  //         )} */}
+  //           <Dropdown />
+  //           <div className={classes.cart}>
+  //             <IconButton aria-label='Show cart items' color='inherit'>
+  //               <ShoppingCart />
+  //             </IconButton>
+  //           </div>
+  //         </Toolbar>
+  //       </AppBar>
+  //     </>
+  //   );
+  // } else if (isAdmin) {
   return (
     <>
       <AppBar position='fixed' color='inherit'>
         <Toolbar className={classes.root}>
+          <Typography
+            variant='h3'
+            style={{
+              fontFamily: "anton",
+              color: "black",
+              textShadow: "3px 3px 0px #c1c1c1",
+            }}>
+            Last Call
+          </Typography>
           <Button className={classes.navLink}>
-            <a href='/' style={{ textDecoration: "none" }}>
+            <a href='/' style={{ textDecoration: "none", color: "black" }}>
               Home
             </a>
           </Button>
           <Button className={classes.navLink}>
-            <a href='/all-products' style={{ textDecoration: "none" }}>
+            <a
+              href='/all-products'
+              style={{ textDecoration: "none", color: "black" }}>
               Shop
             </a>
           </Button>
@@ -85,16 +140,10 @@ const Navbar = () => {
             ""
           )} */}
           <Dropdown />
-          {/* <Button className={classes.navLink}>
-            <a href='/login' style={{ textDecoration: "none" }}>
-              Login
-            </a> */}
-          {/* </Button> */}
+          <Admin />
           <div className={classes.cart}>
             <IconButton aria-label='Show cart items' color='inherit'>
-              <Badge badgeContent={2} color='secondary'>
-                <ShoppingCart />
-              </Badge>
+              <ShoppingCart />
             </IconButton>
           </div>
         </Toolbar>
@@ -104,3 +153,19 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+//           {/* <Button className={classes.navLink}>
+//             <a href='/login' style={{ textDecoration: "none" }}>
+//               Login
+//             </a> */}
+//           {/* </Button> */}
+//           <div className={classes.cart}>
+//             <IconButton aria-label='Show cart items' color='inherit'>
+//               <ShoppingCart />
+//             </IconButton>
+//           </div>
+//         </Toolbar>
+//       </AppBar>
+//     </>
+//   );
+// }

@@ -46,6 +46,8 @@ const Register = () => {
 
   const useStyles = makeStyles((theme) => ({
     root: {
+      paddingTop: "100px",
+
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
         width: "25ch",
@@ -58,19 +60,17 @@ const Register = () => {
         backgroundColor: "#e78686",
       },
     },
-    title: {
-      marginTop: 20,
 
-      color: "#110303",
-      fontSize: 40,
-    },
-    subTitle: {
-      color: "#110303",
+subTitle: {
+      color: "black",
       fontSize: 30,
+      fontFamily: "anton",
     },
     textField: {
-      color: "white",
-      backgroundColor: "white",
+      color: "#F9DDD2",
+      backgroundColor: "#F9DDD2",
+      display: "flex",
+      justifyContent: "center",
     },
     form: {
       display: "flex",
@@ -84,15 +84,7 @@ const Register = () => {
   return (
     <div className={classes.root}>
       <Container>
-        <Typography
-          className={classes.title}
-          variant='h6'
-          color='secondary'
-          component='h2'
-          align='center'
-          gutterBottom>
-          Please Create An Account.
-        </Typography>
+        
         <Typography
           className={classes.subTitle}
           variant='h1'
@@ -119,6 +111,7 @@ const Register = () => {
               setUsername(event.target.value);
             }}
           />
+
           <TextField
             className={classes.textField}
             id='outlined-required'
@@ -135,8 +128,8 @@ const Register = () => {
             type='submit'
             color='secondary'
             variant='contained'
-            endIcon={<KeyboardArrowRightIcon />}>
-            Register
+            onSubmit={onFormSubmit}>
+            Submit
           </Button>
         </form>
       </Container>
