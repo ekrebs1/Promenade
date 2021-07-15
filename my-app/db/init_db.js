@@ -79,8 +79,10 @@ async function populateInitialProducts() {
       {
         id: 1,
         name: "Titos",
-        description: "For the dog lovers. Try it with some OJ, cranberry juice, Amarreto, and peach schnapps. Delicious!.",
-        image_url: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ5r43rc7VIJhLtOWVsZjbMpRce4xOH3nFidzZS3FwNaHHPQSgAmQk_mFVJ5iQhcVfqOl9ZDhZEp-eeTygoSMpixCb35SMnHt909bGpUSfV_D7oTO5dnLeq_Q&usqp=CAE",
+        description:
+          "For the dog lovers. Try it with some OJ, cranberry juice, Amarreto, and peach schnapps. Delicious!.",
+        image_url:
+          "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ5r43rc7VIJhLtOWVsZjbMpRce4xOH3nFidzZS3FwNaHHPQSgAmQk_mFVJ5iQhcVfqOl9ZDhZEp-eeTygoSMpixCb35SMnHt909bGpUSfV_D7oTO5dnLeq_Q&usqp=CAE",
         price: "19.99",
         quantity: 2,
         category: "vodka",
@@ -89,8 +91,10 @@ async function populateInitialProducts() {
       {
         id: 2,
         name: "Crown Royal",
-        description: "Canada's finest. Try it with cranberry juice, peach schnapps, and a splash of Redbull. You'll have the best night of your life!",
-        image_url: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQ6CA-NNEdoVdOp0JzAIH9zVdgZiyGLdA2soxzUE7HHlHW2xSats5jEX-lZeOeiAu967akNwyg7NmQx1azQLtN3iFUEQ8NjoLaS_7bWjAxu3G-delOD9Px9&usqp=CAE",
+        description:
+          "Canada's finest. Try it with cranberry juice, peach schnapps, and a splash of Redbull. You'll have the best night of your life!",
+        image_url:
+          "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQ6CA-NNEdoVdOp0JzAIH9zVdgZiyGLdA2soxzUE7HHlHW2xSats5jEX-lZeOeiAu967akNwyg7NmQx1azQLtN3iFUEQ8NjoLaS_7bWjAxu3G-delOD9Px9&usqp=CAE",
         price: "25.99",
         quantity: 1,
         category: "whiskey",
@@ -100,8 +104,9 @@ async function populateInitialProducts() {
         id: 3,
         name: "Bombay Sapphire",
         description: "Pair this gem with some lemonade. You won't regret it.",
-        image_url: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ89oQlHR2jvvl-FzAiQIVmyBJdeo1tHukDgEyXtxHONN3vCFQfli3ufAjiyVIyEbSUHMfvy7cuqTVzpDTCaKTM5rPNxwzG5bSTnwlrQ2HI3zeD3LFCCETv&usqp=CAE",
-        price: "$21.99",
+        image_url:
+          "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQ89oQlHR2jvvl-FzAiQIVmyBJdeo1tHukDgEyXtxHONN3vCFQfli3ufAjiyVIyEbSUHMfvy7cuqTVzpDTCaKTM5rPNxwzG5bSTnwlrQ2HI3zeD3LFCCETv&usqp=CAE",
+        price: "21.99",
         quantity: 2,
         category: "gin",
         inventory: "30",
@@ -109,8 +114,10 @@ async function populateInitialProducts() {
       {
         id: 4,
         name: "Jose Quervo",
-        description: "Tequila Sunrise. Orange juice and grenadine. That is all.",
-        image_url: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTwzmnwZ8Pk_UNHkm-yR7u5a0uXZCukp9sHMAUcBdyxpne7pVAWz0GtdHZ4qP888lcU7NJEQO1IJouRsIfw7kBmk5slm4ZlMQ&usqp=CAE",
+        description:
+          "Tequila Sunrise. Orange juice and grenadine. That is all.",
+        image_url:
+          "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTwzmnwZ8Pk_UNHkm-yR7u5a0uXZCukp9sHMAUcBdyxpne7pVAWz0GtdHZ4qP888lcU7NJEQO1IJouRsIfw7kBmk5slm4ZlMQ&usqp=CAE",
         price: "19.99",
         quantity: 18,
         category: "tequila",
@@ -120,13 +127,13 @@ async function populateInitialProducts() {
         id: 4,
         name: "Glenlivet",
         description: "Just put it on the rocks.",
-        image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlzuS6iNqtNa4qQQe3RtzbAu3sb7GWc5emWg&usqp=CAU",
+        image_url:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlzuS6iNqtNa4qQQe3RtzbAu3sb7GWc5emWg&usqp=CAU",
         price: "29.99",
         quantity: 20,
         category: "scotch",
         inventory: "14",
       },
-
     ];
     const theProducts = await Promise.all(
       productsToCreate.map((product) => createProduct(product))
