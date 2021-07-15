@@ -4,7 +4,6 @@ export default makeStyles(() => ({
   root: {
     height: 400,
     width: 300,
-
     justifyContent: "space-between",
   },
   media: {

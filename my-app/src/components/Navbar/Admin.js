@@ -2,13 +2,13 @@ import React from "react";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AccountBox from "@material-ui/icons/AccountBox";
+import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 import Menu from "@material-ui/core/Menu";
 import MenuList from "@material-ui/core/MenuList";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 
-const Dropdown = () => {
+const Admin = (isAdmin) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -19,11 +19,6 @@ const Dropdown = () => {
     setAnchorEl(null);
   };
 
-  const logOut = () => {
-    localStorage.clear("token");
-    window.location.href = "/login";
-  };
-
   return (
     <div>
       <Button
@@ -31,8 +26,8 @@ const Dropdown = () => {
         aria-controls='simple-menu'
         aria-haspopup='true'
         onClick={handleClick}>
-        <AccountBox />
-        <span>My Account</span>
+        <SettingsApplicationsIcon />
+        <span>Admin</span>
         <ExpandMoreIcon />
       </Button>
       <Menu
@@ -51,14 +46,8 @@ const Dropdown = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}>
         <MenuList>
-          <MenuItem onClick={handleClose}>My Profile</MenuItem>
-          <MenuItem component='a' href='/login'>
-            Login
-          </MenuItem>
-
-          <MenuItem onClick={logOut}>Logout</MenuItem>
-          <MenuItem component='a' href='/register'>
-            Register
+          <MenuItem component='a' href='/admin'>
+            Add Product
           </MenuItem>
         </MenuList>
       </Menu>
@@ -66,4 +55,4 @@ const Dropdown = () => {
   );
 };
 
-export default Dropdown;
+export default Admin;

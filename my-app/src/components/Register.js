@@ -50,6 +50,8 @@ const Register = () => {
 
   const useStyles = makeStyles((theme) => ({
     root: {
+      paddingTop: "100px",
+
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
         width: "25ch",
@@ -63,15 +65,11 @@ const Register = () => {
         backgroundColor: "#94ACBF",
       },
     },
-    title: {
-      marginTop: 20,
 
-      color: "#79AEB2",
-      fontSize: 40,
-    },
     subTitle: {
-      color: "#79AEB2",
+      color: "black",
       fontSize: 30,
+      fontFamily: "anton",
     },
     textField: {
       color: "#F9DDD2",
@@ -91,15 +89,6 @@ const Register = () => {
   return (
     <div className={classes.root}>
       <Container>
-        <Typography
-          className={classes.title}
-          variant='h6'
-          color='secondary'
-          component='h2'
-          align='center'
-          gutterBottom>
-          Hello There- Welcome to Fitness Trackr!
-        </Typography>
         <Typography
           className={classes.subTitle}
           variant='h1'
@@ -126,6 +115,7 @@ const Register = () => {
               setUsername(event.target.value);
             }}
           />
+
           <TextField
             className={classes.textField}
             id='outlined-required'
@@ -204,8 +194,8 @@ const Register = () => {
             type='submit'
             color='secondary'
             variant='contained'
-            endIcon={<KeyboardArrowRightIcon />}>
-            Register
+            onSubmit={onFormSubmit}>
+            Submit
           </Button>
         </form>
       </Container>

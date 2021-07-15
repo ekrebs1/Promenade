@@ -2,6 +2,7 @@
   display: grid;
   grid-template: 0.5fr auto / auto;
   padding: 10px;
+  padding-top: 200px;
 }
 
 .form-header {
@@ -9,7 +10,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Fjalla One", sans-serif;
+  font-family: "anton";
+  padding-bottom: 50px;
 }
 
 .the-form {
