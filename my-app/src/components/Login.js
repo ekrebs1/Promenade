@@ -57,9 +57,9 @@ const Login = ({ setIsAdmin, isAdmin }) => {
     },
     btn: {
       fontSize: 20,
-      backgroundColor: "#E2725A",
+      backgroundColor: "blue",
       "&:hover": {
-        backgroundColor: "#94ACBF",
+        backgroundColor: "navy",
       },
     },
     title: {
@@ -74,8 +74,8 @@ const Login = ({ setIsAdmin, isAdmin }) => {
       fontFamily: "anton",
     },
     textField: {
-      color: "#F9DDD2",
-      backgroundColor: "#F9DDD2",
+      color: "white",
+      backgroundColor: "white",
     },
     form: {
       display: "flex",

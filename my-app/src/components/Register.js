@@ -26,7 +26,7 @@ const Register = () => {
       .then(({ data: { token } }) => {
         if (token) {
           localStorage.setItem("token", JSON.stringify(token));
-          window.location.href = `${window.location.origin}${HOME_ROUTE}`;
+          window.location.href = "/";
         } else {
           setErrorMessage("Something went wrong");
         }
@@ -36,13 +36,11 @@ const Register = () => {
       });
   };
 
- const onFormSubmit =  (event) => {
+  const onFormSubmit = (event) => {
     event.preventDefault();
-    console.log(username,password, "username, password");
+    console.log(username, password, "username, password");
     registerUser(username, password);
   };
-  
-  
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,20 +53,20 @@ const Register = () => {
     },
     btn: {
       fontSize: 20,
-      backgroundColor: "#e01414",
+      backgroundColor: "blue",
       "&:hover": {
-        backgroundColor: "#e78686",
+        backgroundColor: "navy",
       },
     },
 
-subTitle: {
+    subTitle: {
       color: "black",
       fontSize: 30,
       fontFamily: "anton",
     },
     textField: {
-      color: "#F9DDD2",
-      backgroundColor: "#F9DDD2",
+      color: "white",
+      backgroundColor: "white",
       display: "flex",
       justifyContent: "center",
     },
@@ -84,7 +82,6 @@ subTitle: {
   return (
     <div className={classes.root}>
       <Container>
-        
         <Typography
           className={classes.subTitle}
           variant='h1'
