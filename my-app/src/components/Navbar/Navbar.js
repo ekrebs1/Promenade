@@ -125,6 +125,11 @@ const Navbar = ({ isAdmin }) => {
               Shop
             </a>
           </Button>
+          <Button className={classes.navLink}>
+            <a href='/register' style={{ textDecoration: "none" }}>
+              Register
+            </a>
+          </Button>
           {/* {isAdmin ? (
             <Button>
               <a href="/users" style={{ textDecoration: "none" }}>
