@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import Dropdown from "./Dropdown";
+// import { Login, Register } from "c";
 
 // import useStyles from "./styles";
 
@@ -67,6 +68,11 @@ const Navbar = () => {
           <Button className={classes.navLink}>
             <a href='/all-products' style={{ textDecoration: "none" }}>
               Shop
+            </a>
+          </Button>
+          <Button className={classes.navLink}>
+            <a href='/register' style={{ textDecoration: "none" }}>
+              Register
             </a>
           </Button>
           {/* {isAdmin ? (
