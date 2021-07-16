@@ -23,7 +23,6 @@ const Product = ({ product, index, userId, cart }) => {
   const handleAddtoCart = async () => {
     if (myUserId) {
       const newCartItem = await addCartItem(1, product.id, myUserId);
-      console.log(newCartItem);
     }
 
     localStorage.setItem("Cart", JSON.stringify(cart));

@@ -5,68 +5,77 @@ import {
   Container,
   makeStyles,
 } from "@material-ui/core";
-import React from "react";
-import { useState } from "react";
-// import { registerUser } from "../api";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import React, { useState } from "react";
 import axios from "axios";
-export const HOME_ROUTE = "/";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState();
-
-  const registerUser = async () => {
+  const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [address, setAddress] = useState();
+  const [city, setCity] = useState();
+  const [state, setState] = useState();
+  const [zip, setZip] = useState();
+  // const [errorMessage, setErrorMessage] = useState();
+  async function registerUser(username, password) {
     return await axios
-      .post(`api/users/register`, {
+      .post("api/users/register", {
+        email,
         username,
         password,
+        address,
+        city,
+        state,
+        zip,
       })
       .then(({ data: { token } }) => {
         if (token) {
           localStorage.setItem("token", JSON.stringify(token));
           window.location.href = "/";
         } else {
-          setErrorMessage("Something went wrong");
+          console.error("Could not register with that info.");
         }
       })
-      .catch(() => {
-        setErrorMessage("Something went wrong");
-      });
-  };
+      .catch((error) => {
+        console.log(error);
 
+        console.error("Something went horribly wrong");
+      });
+  }
   const onFormSubmit = (event) => {
     event.preventDefault();
-    console.log(username, password, "username, password");
-    registerUser(username, password);
+    registerUser(email, username, password, address, city, state, zip);
   };
 
   const useStyles = makeStyles((theme) => ({
     root: {
-      paddingTop: "100px",
-
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
         width: "25ch",
+        display: "inline-block",
       },
     },
     btn: {
       fontSize: 20,
-      backgroundColor: "blue",
+      backgroundColor: "#E2725A",
       "&:hover": {
-        backgroundColor: "navy",
+        backgroundColor: "#94ACBF",
       },
     },
+    title: {
+      marginTop: 20,
 
+      color: "#79AEB2",
+      fontSize: 40,
+    },
     subTitle: {
-      color: "black",
+      color: "#79AEB2",
       fontSize: 30,
-      fontFamily: "anton",
     },
     textField: {
-      color: "white",
-      backgroundColor: "white",
+      color: "#F9DDD2",
+      backgroundColor: "#F9DDD2",
       display: "flex",
       justifyContent: "center",
     },
@@ -82,6 +91,15 @@ const Register = () => {
   return (
     <div className={classes.root}>
       <Container>
+        <Typography
+          className={classes.title}
+          variant='h6'
+          color='secondary'
+          component='h2'
+          align='center'
+          gutterBottom>
+          Hello There- Welcome to Fitness Trackr!
+        </Typography>
         <Typography
           className={classes.subTitle}
           variant='h1'
@@ -108,25 +126,86 @@ const Register = () => {
               setUsername(event.target.value);
             }}
           />
-
           <TextField
             className={classes.textField}
             id='outlined-required'
             type='password'
             label='Required'
             variant='outlined'
+            //color='secondary'
             defaultValue='Password'
             onInput={(event) => {
               setPassword(event.target.value);
             }}
           />
+          <TextField
+            className={classes.textField}
+            id='outlined-required'
+            type='email'
+            label='Required'
+            variant='outlined'
+            //color='secondary'
+            defaultValue='Email'
+            onInput={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            id='outlined-required'
+            type='text'
+            label='Required'
+            variant='outlined'
+            //color='secondary'
+            defaultValue='Address Line'
+            onInput={(event) => {
+              setAddress(event.target.value);
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            id='outlined-required'
+            type='text'
+            label='Required'
+            variant='outlined'
+            //color='secondary'
+            defaultValue='City'
+            onInput={(event) => {
+              setCity(event.target.value);
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            id='outlined-required'
+            type='text'
+            label='Required'
+            variant='outlined'
+            //color='secondary'
+            defaultValue='State'
+            onInput={(event) => {
+              setState(event.target.value);
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            id='outlined-required'
+            type='text'
+            label='Required'
+            variant='outlined'
+            //color='secondary'
+            defaultValue='Zip'
+            onInput={(event) => {
+              setZip(event.target.value);
+            }}
+          />
+
           <Button
             className={classes.btn}
             type='submit'
             color='secondary'
             variant='contained'
-            onSubmit={onFormSubmit}>
-            Submit
+            endIcon={<KeyboardArrowRightIcon />}>
+            Register
           </Button>
         </form>
       </Container>
