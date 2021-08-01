@@ -1,4 +1,4 @@
-const { client } = require("./client");
+const { client, pgp, db } = require("./client");
 
 async function buildTables() {
   try {
