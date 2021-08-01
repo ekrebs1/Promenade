@@ -1,4 +1,4 @@
-const { client, db } = require("./client");
+const { client } = require("./client");
 
 async function createProduct({
   name,
@@ -130,7 +130,6 @@ async function getProductByCategory(category) {
 
 module.exports = {
   client,
-  db,
   createProduct,
   getAllProducts,
   getProductById,

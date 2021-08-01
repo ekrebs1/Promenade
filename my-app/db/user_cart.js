@@ -1,4 +1,4 @@
-const { client, db } = require("./client");
+const { client } = require("./client");
 
 async function createCartItem(user_id, product_id, quantity) {
   try {
@@ -236,7 +236,6 @@ async function updateProductQuantity(user_id, product_id, quantity) {
 
 module.exports = {
   client,
-  db,
   createCartItem,
   updateCartItemQuantity,
   createCart,

@@ -1,5 +1,3 @@
-const { Query } = require("pg");
-const pgPromise = require("pg-promise");
 const { client, pgp, db } = require("./client");
 
 const { getCartByUserId, setCartInactive } = require("./user_cart");
@@ -64,12 +62,9 @@ async function bulkUpdateOrderProducts(order_id, cartProducts) {
   const newCartProducts = cartProducts.map((cp) => {
     return { order_id, ...cp };
   });
-  const cs = new pgPromise.helpers.ColumnSet(
-    ["order_id", "product_id", "quantity"],
-    {
-      table: "order_products",
-    }
-  );
+  const cs = new pgp.helpers.ColumnSet(["order_id", "product_id", "quantity"], {
+    table: "order_products",
+  });
   const query = pgp.helpers.insert(newCartProducts, cs);
   await db.none(query);
 }
