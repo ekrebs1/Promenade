@@ -1,4 +1,4 @@
-const { client } = require("./client");
+const { client, db } = require("./client");
 
 async function createUser({ username, password, email, name, admin = false }) {
   try {
@@ -180,6 +180,7 @@ async function createGuest({ email, name }) {
 
 module.exports = {
   client,
+  db,
   createUser,
   getAllUsers,
   getUserByUsername,
@@ -188,5 +189,5 @@ module.exports = {
   deleteUser,
   createUserAddress,
   joinAddressToUser,
-  createGuesr,
+  createGuest,
 };
