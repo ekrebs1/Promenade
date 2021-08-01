@@ -11,5 +11,6 @@ const db = pgp(DB_URL);
 
 module.exports = {
   client,
+  pgp,
   db,
 };

@@ -72,11 +72,11 @@ async function buildTables() {
 
         CREATE TABLE cart_products(
             id SERIAL PRIMARY KEY,
-            user_cart_id INTEGER REFERENCES user_cart(id) ON DELETE CASCADE,
-            product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+            "user_cart_id" INTEGER REFERENCES user_cart(id) ON DELETE CASCADE,
+            "product_id" INTEGER REFERENCES products(id) ON DELETE CASCADE,
             quantity INTEGER NOT NULL,
             active BOOLEAN DEFAULT true,
-            UNIQUE(user_cart_id, product_id)
+            UNIQUE("user_cart_id", "product_id")
         );
 
         CREATE TABLE order_products(
