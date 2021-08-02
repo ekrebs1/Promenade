@@ -122,6 +122,7 @@ async function getProductByCategory(category) {
       `,
       [category]
     );
+    return rows;
   } catch (error) {
     console.error("Error getProductByCategory in db/product");
     throw error;

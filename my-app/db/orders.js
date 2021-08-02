@@ -5,26 +5,25 @@ const { getCartByUserId, setCartInactive } = require("./user_cart");
 async function createUserOrder(user_id) {
   try {
     const userCart = await getCartByUserId(user_id);
-
     if (userCart.length === 0) {
-      console.error("Can't create user order without user cart @ db");
+      console.error("Can't create user order without a user cart");
     } else {
       const { rows: createdOrder } = await client.query(
         `
         INSERT INTO user_orders(user_id, user_cart_id)
-        VALUES($1, $2)
+        VALUES ($1, $2)
         ON CONFLICT (user_id, user_cart_id) DO NOTHING
-        RETURNING *;
-        `,
+        RETURNING *
+      `,
         [user_id, userCart[0].id]
       );
-
+      console.log("NEW ORDER CREATED", createdOrder);
       await setCartInactive(userCart[0].id);
       await addCartProductsToOrderProducts(userCart[0].id, createdOrder[0].id);
       return createdOrder[0].id;
     }
   } catch (error) {
-    console.error("Error with createUserOrder in db/orders.");
+    console.error("could not create user order");
     throw error;
   }
 }
