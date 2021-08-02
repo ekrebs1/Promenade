@@ -1,5 +1,5 @@
 const { client } = require("./client");
-const { getUserByID } = require("./user_cart");
+const { getUserById } = require("./user_cart");
 
 async function createUser({ username, password, email, name, admin = false }) {
   try {
@@ -9,7 +9,7 @@ async function createUser({ username, password, email, name, admin = false }) {
       `
         INSERT INTO users(username, password, email, name, admin )
         VALUES ($1,$2, $3, $4, $5)
-        ON ONFLICT (username, email) DO NOTHING 
+        ON CONFLICT (username, email) DO NOTHING 
         RETURNING *;
         `,
       [username, password, email, name, admin]
@@ -28,7 +28,7 @@ async function getAllUsers() {
       FROM users
       `);
 
-    const users = await Promise.all(id.map((user) => getUserByID(user.id)));
+    const users = await Promise.all(id.map((user) => getUserById(user.id)));
     return users;
   } catch (error) {
     console.error("Error with getAllUsers in db/users.");
@@ -127,7 +127,7 @@ async function createUserAddress({
       `
     INSERT INTO user_address(user_id, street, street_2, state, zip_code)
     VALUES($1, $2, $3, $4, $5)
-    ON CONFLICT (user_id) DON NOTHING 
+    ON CONFLICT (user_id) DO NOTHING 
     RETURNING *
     `,
       [user_id, street, street_2, state, zip_code]

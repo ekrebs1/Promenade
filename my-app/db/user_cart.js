@@ -5,22 +5,36 @@ async function createCartItem(user_id, product_id, quantity) {
     let userCart = await getCartByUserId(user_id);
     if (userCart.length === 0) {
       userCart = await createCart(user_id);
-    }
 
+      const {
+        rows: [product],
+      } = await client.query(
+        `
+        INSERT INTO cart_products(user_cart_id, product_id, quantity)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (user_cart_id, product_id) DO NOTHING
+        RETURNING *;
+      `,
+        [userCart.id, product_id, quantity]
+      );
+
+      return product;
+    }
     const {
       rows: [product],
     } = await client.query(
       `
-    INSERT INTO cart_products(user_cart_id, product_id, quantity)
-    VALUES ($1, $2, $3)
-    ON CONFLICT (user_cart_id, product_id) DO NOTHING
-    RETURNING *;
+      INSERT INTO cart_products(user_cart_id, product_id, quantity)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (user_cart_id, product_id) DO NOTHING
+      RETURNING *;
     `,
-      [userCart.id, product_id, quantity]
+      [userCart[0].id, product_id, quantity]
     );
+
     return product;
   } catch (error) {
-    console.error("Error with createCartItem in db/user_cart.");
+    console.error("could not create cart item");
     throw error;
   }
 }
@@ -93,7 +107,7 @@ async function addProductToCart(user_id, product_id, quantity) {
 
     await createCartItem(user_id, product.id, quantity);
 
-    return await getUserByID(user_id);
+    return await getUserById(user_id);
   } catch (error) {
     console.error("Error with addProductToCart in db/user_cart.");
     throw error;
