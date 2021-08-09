@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import CategoryButtons from "./components/Home/CategoryButtons";
+import Home from "./Pages/Home";
+import Products from "./Pages/Products";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -18,7 +19,10 @@ const App = () => {
       <main>
         <Switch>
           <Route exact path='/'>
-            <CategoryButtons loggedIn={loggedIn} />
+            <Home loggedIn={loggedIn} />
+          </Route>
+          <Route exact path='/all-products'>
+            <Products />
           </Route>
         </Switch>
       </main>
