@@ -12,10 +12,7 @@ const {
 productsRouter.get("/", async (req, res, next) => {
   try {
     const products = await getAllProducts();
-    res.send({
-      message: "All products grabbed!",
-      products,
-    });
+    res.send(products);
   } catch ({ name, message }) {
     next({
       name: "GetAllProductsError",

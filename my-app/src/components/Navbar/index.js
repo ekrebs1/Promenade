@@ -8,7 +8,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ShoppingCartIconOutlined from "@material-ui/icons/ShoppingCartOutlined";
 import { ButtonGroup } from "@material-ui/core";
-import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,9 +56,7 @@ const Navbar = () => {
           </Typography>
 
           <IconButton href='/cart' style={{ color: "#28ACEA" }}>
-            <Badge badgeContent={4} color='#fff'>
-              <ShoppingCartIconOutlined />
-            </Badge>
+            <ShoppingCartIconOutlined />
           </IconButton>
 
           {!loggedIn ? (
