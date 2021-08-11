@@ -94,15 +94,15 @@ export async function getMyAccount(token) {
   }
 }
 
-export async function removeUser(id, token) {
-  try {
-    const { data } = await axios.delete(`/api/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return data;
-  } catch (error) {
-    throw data;
-  }
-}
+// export async function removeUser(id, token) {
+//   try {
+//     const { data } = await axios.delete(`/api/users/${id}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     return data;
+//   } catch (error) {
+//     throw data;
+//   }
+// }
