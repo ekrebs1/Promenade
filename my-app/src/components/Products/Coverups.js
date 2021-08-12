@@ -16,42 +16,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Products = ({ cart, setCart }) => {
+const Coverups = ({ cart }) => {
   const classes = useStyles();
-  const [grabbedProducts, setGrabbedProducts] = useState();
+  const [grabbedCoverups, setGrabbedCoverups] = useState();
 
-  const getAllProducts = async () => {
+  const getAllCoverups = async () => {
     try {
       const products = await getProducts();
-
-      setGrabbedProducts(products);
-      console.log(products);
+      let coverups = products.filter((product) => {
+        return product.type.toLowerCase().includes("cover-up");
+      });
+      setGrabbedCoverups(coverups);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
-    getAllProducts();
+    getAllCoverups();
   }, []);
 
   return (
     <div>
       <CategoryButtons />
-      <h1 className='Title'>All Products</h1>
+      <h1 className='Title'>Cover-Ups</h1>
       <Grid
         container
         direction='row'
         alignItems='center'
         className={classes.root}>
         <div className={classes.root}>
-          {grabbedProducts?.map((product, index) => {
+          {grabbedCoverups?.map((product, index) => {
             return (
               <ProductCard
-                key={product.id}
+                key={index}
                 index={index}
                 product={product}
                 cart={cart}
-                setCart={setCart}
               />
             );
           })}
@@ -61,4 +61,4 @@ const Products = ({ cart, setCart }) => {
   );
 };
 
-export default Products;
+export default Coverups;

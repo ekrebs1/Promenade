@@ -32,10 +32,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CartItem = ({ index, token, item, cart, setCart }) => {
+  const classes = useStyles();
   const { id, name, description, image_url, quantity, price, product_id } =
     item;
   const [ItemQuantity, setItemQuantity] = useState(quantity);
-  const classes = useStyles();
+
   const handleQuantityChange = async (event) => {
     const value = event.target.value;
     if (value < 0) {
@@ -44,7 +45,6 @@ const CartItem = ({ index, token, item, cart, setCart }) => {
       setItemQuantity(value);
     }
   };
-
   const handleProductRemove = async () => {
     try {
       if (token) {

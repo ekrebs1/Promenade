@@ -5,10 +5,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
 
 import ShoppingCartIconOutlined from "@material-ui/icons/ShoppingCartOutlined";
 import { ButtonGroup } from "@material-ui/core";
-import TempDrawer from "./Drawer";
+// import TempDrawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,29 +46,30 @@ const Navbar = () => {
         }}
         position='static'>
         <Toolbar>
-          <TempDrawer admin={admin} />
+          {/* <TempDrawer admin={admin} /> */}
 
           <Typography variant='h4' className={classes.title}>
             PROMENADE
           </Typography>
+          <Link to='/products' style={{ textDecoration: "none" }}>
+            <Button style={{ color: "#28ACEA", textDecoration: "none" }}>
+              SHOP
+            </Button>
+          </Link>
+          <Link to='/cart' style={{ textDecoration: "none" }}>
+            <IconButton style={{ color: "#28ACEA" }}>
+              <ShoppingCartIconOutlined />
+            </IconButton>
+          </Link>
 
-          <Button href='/products' style={{ color: "#28ACEA" }}>
-            SHOP
-          </Button>
-          <IconButton href='/cart' style={{ color: "#28ACEA" }}>
-            <ShoppingCartIconOutlined />
-          </IconButton>
-
-          {!loggedIn ? (
-            <ButtonGroup variant='text' aria-label='text primary button group'>
-              <Button href='/login' style={{ color: "#28ACEA" }}>
-                LOGIN
-              </Button>
-              <Button href='/register' style={{ color: "#28ACEA" }}>
-                REGISTER
-              </Button>
-            </ButtonGroup>
-          ) : null}
+          <ButtonGroup variant='text' aria-label='text primary button group'>
+            <Link to='/login' style={{ textDecoration: "none" }}>
+              <Button style={{ color: "#28ACEA" }}>LOGIN</Button>
+            </Link>
+            <Link to='/register' style={{ textDecoration: "none" }}>
+              <Button style={{ color: "#28ACEA" }}>REGISTER</Button>
+            </Link>
+          </ButtonGroup>
         </Toolbar>
       </AppBar>
     </div>

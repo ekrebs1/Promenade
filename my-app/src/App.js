@@ -7,6 +7,7 @@ import {
   Login,
   Products,
   Cart,
+  Coverups,
 } from "./components/index";
 
 const App = () => {
@@ -67,7 +68,16 @@ const App = () => {
             <Products cart={cart} setCart={setCart} loggedIn={loggedIn} />
           </Route>
           <Route exact path='/cart'>
-            <Cart cart={cart} setCart={setCart} loggedIn={loggedIn} />
+            <Cart
+              cart={cart}
+              setCart={setCart}
+              loggedIn={loggedIn}
+              user={user}
+              setUser={setUser}
+            />
+          </Route>
+          <Route exact path='/cover-ups'>
+            <Coverups cart={cart} />
           </Route>
         </Switch>
       </main>

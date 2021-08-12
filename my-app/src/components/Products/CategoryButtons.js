@@ -8,19 +8,19 @@ const images = [
     url: "https://i.ibb.co/tbWJ6tn/promenade-maxi.webp",
     title: "Cover-Ups",
     width: "33.5%",
-    link: "/cover-ups",
+    link: "/products",
   },
   {
     url: "https://i.ibb.co/mGKgmWv/promenade-tote.webp",
     title: "Bags",
     width: "33%",
-    link: "/bags",
+    link: "/products",
   },
   {
     url: "https://i.ibb.co/LZsHZ4n/promenade-strawhat.webp",
     title: "Hats",
     width: "33.5%",
-    link: "/hats",
+    link: "/products",
   },
 ];
 

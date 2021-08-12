@@ -21,20 +21,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cart = ({ cart, setCart, loggedIn }) => {
+const Cart = (props) => {
+  const classes = useStyles();
+  const { cart, setCart, loggedIn } = props;
   const token = localStorage.getItem("token");
   let total = 0.0;
-  const classes = useStyles();
 
   useEffect(() => {
     async function fetchCart(token) {
-      const userCart = await getCart(token);
-      setCart(userCart);
-      console.log(userCart);
+      const fetchedCart = await getCart(token);
+      setCart(fetchedCart);
     }
-    // if (token) {
-    //   fetchCart(token);
-    // }
+    if (token) {
+      fetchCart(token);
+    }
   }, []);
 
   const checkout = async () => {
