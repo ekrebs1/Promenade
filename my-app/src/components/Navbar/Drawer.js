@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
+
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+
+import MenuIcon from "@material-ui/icons/Menu";
+import { IconButton } from "@material-ui/core";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Payment from "@material-ui/icons/Payment";
+import PeopleAlt from "@material-ui/icons/PeopleAlt";
+import LocalOffer from "@material-ui/icons/LocalOffer";
 
 const useStyles = makeStyles({
   list: {
@@ -20,14 +26,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TemporaryDrawer() {
+export default function TempDrawer() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  const [state, setState] = React.useState(false);
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("admin")) {
+      setAdmin(true);
+    }
+  }, []);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -48,35 +56,51 @@ export default function TemporaryDrawer() {
       role='presentation'
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}>
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+      <List
+        subheader={
+          <ListSubheader component='div' id='nested-list-subheader'>
+            Menu
+          </ListSubheader>
+        }>
+        {["My Cart", "My Orders"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {index % 2 === 0 ? <ShoppingCartIcon /> : <Payment />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      {!admin ? (
+        <List
+          subheader={
+            <ListSubheader component='div' id='nested-list-subheader'>
+              Administrator Settings
+            </ListSubheader>
+          }>
+          {["All Orders", "All Users", "All Products"].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index === 0 && <Payment />}
+                {index === 1 && <PeopleAlt />}
+                {index === 2 && <LocalOffer />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      ) : null}
     </div>
   );
 
   return (
     <div>
-      {["left", "right", "top", "bottom"].map((anchor) => (
+      {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <IconButton onClick={toggleDrawer(anchor, true)}>
+            <MenuIcon />
+          </IconButton>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

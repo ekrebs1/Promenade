@@ -2,76 +2,61 @@ const express = require("express");
 const cartRouter = express.Router();
 const Stripe = require("stripe");
 const stripe = Stripe(`${process.env.STRIPE_API_KEY}`);
-const { requireUser } = require("../Utils");
-const {
-  getUserById,
-  addProductToCart,
-  deleteCartItem,
-  updateProductQuantity,
-} = require("../../db/user_cart");
+const { requireUser } = require("../Utils/index.js");
 const { createUserOrder } = require("../../db/orders");
 
-//get a users cart
+const {
+  addProductToCart,
+  createCartItem,
+  deleteCartItem,
+  updateProductQuantity,
+  getUserById,
+} = require("../../db/user_cart");
+
 cartRouter.get("/", requireUser, async (req, res, next) => {
   try {
     const { id } = req.user;
     const user = await getUserById(id);
     res.send(user.cart);
-  } catch ({ name, message }) {
-    next({
-      name: "CartError",
-      message: "Could not get user cart!",
-    });
+  } catch (error) {
+    next({ name: "CartError", message: "Could not get user cart" });
   }
 });
 
-//user add a product to cart
 cartRouter.post("/", requireUser, async (req, res, next) => {
   try {
     const { id } = req.user;
     const { product_id, quantity } = req.body;
-    const addedProduct = await addProductToCart(id, product_id, quantity);
-    res.send(addedProduct);
+    const addedItem = await addProductToCart(id, product_id, quantity);
+    res.send(addedItem);
   } catch (error) {
-    next({
-      name: "CartError",
-      message: "Error adding product to cart!",
-    });
+    next({ name: "CartError", message: "Could not add product to cart" });
   }
 });
 
-//user delete cart item
 cartRouter.delete("/:productId", requireUser, async (req, res, next) => {
   try {
     const { id } = req.user;
     const { productId } = req.params;
-    const deletedItem = await deleteCartItem(id, productId);
-    res.send(deletedItem);
+    const removedItem = await deleteCartItem(id, productId);
+    res.send(removedItem);
   } catch (error) {
-    next({
-      name: "CartError",
-      message: "Could not delete product from cart!",
-    });
+    next({ name: "CartError", message: "Could not remove product from cart" });
   }
 });
 
-//user update quantity in cart
 cartRouter.patch("/:productId", requireUser, async (req, res, next) => {
   try {
     const { id } = req.user;
     const { productId } = req.params;
     const { quantity } = req.body;
-    const updatedProduct = await updateProductQuantity(id, productId, quantity);
-    res.send(updatedProduct);
+    const updatedItem = await updateProductQuantity(id, productId, quantity);
+    res.send(updatedItem);
   } catch (error) {
-    next({
-      name: "CartError",
-      message: "Could not update product quantity in cart!",
-    });
+    next({ name: "CartError", message: "Could not update cart quantity" });
   }
 });
 
-//user checkout with Stripe
 cartRouter.post("/checkout", async (req, res) => {
   try {
     if (req.user) {
@@ -93,7 +78,6 @@ cartRouter.post("/checkout", async (req, res) => {
         quantity,
       });
     });
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items,
@@ -103,10 +87,7 @@ cartRouter.post("/checkout", async (req, res) => {
     });
     res.send(session.url);
   } catch (error) {
-    next({
-      name: "CartError",
-      message: "Could not complete checkout!",
-    });
+    next({ name: "CartError", message: "Could not checkout" });
   }
 });
 

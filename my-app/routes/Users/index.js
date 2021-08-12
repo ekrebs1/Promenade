@@ -19,11 +19,8 @@ const {
 usersRouter.get("/", async (req, res, next) => {
   try {
     const users = await getAllUsers();
-    res.send({
-      message: "All Users Grabbed",
-      users,
-    });
-  } catch ({ name, message }) {
+    res.send(users);
+  } catch (error) {
     next({ name: "GetAllUsersError", message: "Unable to get all users!" });
   }
 });

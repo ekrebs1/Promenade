@@ -5,9 +5,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+
 import ShoppingCartIconOutlined from "@material-ui/icons/ShoppingCartOutlined";
 import { ButtonGroup } from "@material-ui/core";
+import TempDrawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const classes = useStyles();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -43,18 +45,15 @@ const Navbar = () => {
         }}
         position='static'>
         <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'>
-            <MenuIcon />
-          </IconButton>
+          <TempDrawer admin={admin} />
 
           <Typography variant='h4' className={classes.title}>
             PROMENADE
           </Typography>
 
+          <Button href='/products' style={{ color: "#28ACEA" }}>
+            SHOP
+          </Button>
           <IconButton href='/cart' style={{ color: "#28ACEA" }}>
             <ShoppingCartIconOutlined />
           </IconButton>

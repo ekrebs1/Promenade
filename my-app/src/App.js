@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Home, Navbar, Register, Login, Products } from "./components/index";
+import {
+  Home,
+  Navbar,
+  Register,
+  Login,
+  Products,
+  Cart,
+} from "./components/index";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -58,6 +65,9 @@ const App = () => {
           </Route>
           <Route exact path='/products'>
             <Products cart={cart} setCart={setCart} loggedIn={loggedIn} />
+          </Route>
+          <Route exact path='/cart'>
+            <Cart cart={cart} setCart={setCart} loggedIn={loggedIn} />
           </Route>
         </Switch>
       </main>

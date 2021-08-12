@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getCart(token) {
   try {
-    const { data } = await axios.get("api/cart", {
+    const { data } = await axios.get("/api/cart", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -29,7 +29,7 @@ export async function removeItemFromCart(product_id, token) {
 export async function addItemToCart(product_id, quantity, token) {
   try {
     const { data } = await axios.post(
-      `/api/cart`,
+      `api/cart`,
       { product_id, quantity },
       {
         headers: {
@@ -45,7 +45,7 @@ export async function addItemToCart(product_id, quantity, token) {
 
 export async function checkoutUser(cart) {
   try {
-    const { data } = await axios.post("/api/cart/checkout", cart);
+    const { data } = await axios.post("api/cart/checkout", cart);
     return data;
   } catch (error) {
     throw error;

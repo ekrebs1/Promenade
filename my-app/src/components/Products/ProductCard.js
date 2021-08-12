@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -14,10 +14,17 @@ import { addItemToCart } from "../../api/cart";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    margin: "20px",
   },
   media: {
     height: "400px",
     paddingTop: "56.25%", // 16:9
+  },
+  content: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
   },
 }));
 
@@ -41,15 +48,18 @@ const ProductCard = ({ index, product, cart }) => {
   };
   return (
     <Card className={classes.root}>
-      <CardHeader title={name} />
+      <CardHeader
+        title={name}
+        style={{ backgroundColor: "#76AACE", color: "white" }}
+      />
       <CardMedia className={classes.media} image={image_url} title={name} />
-      <CardContent>
+      <CardContent className={classes.content}>
         <Typography variant='body2' color='textSecondary' component='p'>
           {description}
         </Typography>
         <Typography variant='h6'>Price: ${price}</Typography>
         {in_stock ? null : (
-          <p className='StockStatus' style={{ color: "red" }}>
+          <p className='StockStatus' style={{ color: "black" }}>
             Out of stock!
           </p>
         )}
@@ -58,6 +68,7 @@ const ProductCard = ({ index, product, cart }) => {
             className={classes.cartBtn}
             aria-label='add to cart'
             variant='contained'
+            style={{ backgroundColor: "#76AACE", color: "white" }}
             onClick={() => {
               in_stock ? handleAddToCart() : alert("Item out of stock!");
             }}>

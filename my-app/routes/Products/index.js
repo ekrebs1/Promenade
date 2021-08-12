@@ -1,6 +1,6 @@
 const express = require("express");
 const productsRouter = express.Router();
-const { requireAdmin } = require("../Utils");
+const { requireAdmin } = require("../Utils/index");
 const {
   getAllProducts,
   getProductByName,
@@ -13,7 +13,7 @@ productsRouter.get("/", async (req, res, next) => {
   try {
     const products = await getAllProducts();
     res.send(products);
-  } catch ({ name, message }) {
+  } catch (error) {
     next({
       name: "GetAllProductsError",
       message: "Unable to get all products!",
