@@ -25,7 +25,6 @@ const Products = ({ cart, setCart }) => {
       const products = await getProducts();
 
       setGrabbedProducts(products);
-      console.log(products);
     } catch (error) {
       console.error(error);
     }

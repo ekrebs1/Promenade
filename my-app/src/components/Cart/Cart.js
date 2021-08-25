@@ -30,12 +30,13 @@ const Cart = (props) => {
   useEffect(() => {
     async function fetchCart(token) {
       const fetchedCart = await getCart(token);
+      console.log(fetchedCart);
       setCart(fetchedCart);
     }
     if (token) {
       fetchCart(token);
     }
-  }, []);
+  }, [setCart, token]);
 
   const checkout = async () => {
     const url = await checkoutUser(cart);

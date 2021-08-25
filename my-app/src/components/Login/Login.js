@@ -106,17 +106,18 @@ const Login = ({ setLoggedIn, setAdmin, setUser }) => {
               event.preventDefault();
               try {
                 let submit = await userLogin(username, password);
+
                 if (submit.name) {
-                  //   alert(submit.message);
+                  alert(submit.message);
+                  return <Redirect to='/' />;
                 } else {
                   if (submit.user.admin === true) {
                     loggedAdmin();
                   }
-                  //   alert(submit.message);
+                  alert(submit.message);
                   setAdmin(submit.user.admin);
                   setLoggedIn(true);
                   setUser(username);
-                  return <Redirect to='/' />;
                 }
               } catch (error) {
                 console.error(error);

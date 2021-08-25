@@ -66,6 +66,7 @@ async function buildTables() {
         );
 
         CREATE TABLE guests(
+          
             id SERIAL PRIMARY KEY,
             email VARCHAR(50) UNIQUE NOT NULL,
             name VARCHAR(50) NOT NULL,

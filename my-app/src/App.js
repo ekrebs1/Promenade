@@ -13,8 +13,14 @@ import {
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
-  const [admin, setAdmin] = useState(false);
+  const [setAdmin] = useState(false);
   const [user, setUser] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("Cart")) {
+      setCart(JSON.parse(localStorage.getItem("Cart")));
+    }
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -33,12 +39,6 @@ const App = () => {
       setUser(localStorage.getItem("user"));
     }
   }, [user]);
-
-  useEffect(() => {
-    if (localStorage.getItem("Cart")) {
-      setCart(JSON.parse(localStorage.getItem("Cart")));
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("Cart", JSON.stringify(cart));
@@ -68,13 +68,7 @@ const App = () => {
             <Products cart={cart} setCart={setCart} loggedIn={loggedIn} />
           </Route>
           <Route exact path='/cart'>
-            <Cart
-              cart={cart}
-              setCart={setCart}
-              loggedIn={loggedIn}
-              user={user}
-              setUser={setUser}
-            />
+            <Cart cart={cart} setCart={setCart} loggedIn={loggedIn} />
           </Route>
           <Route exact path='/cover-ups'>
             <Coverups cart={cart} />
