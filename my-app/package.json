@@ -28,7 +28,6 @@
     "pg": "^8.2.1",
     "pg-promise": "^10.10.2",
     "react": "^16.13.1",
-    "react-burger-menu": "^2.9.2",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",

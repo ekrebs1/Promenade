@@ -66,7 +66,7 @@ const Login = ({ setLoggedIn, setAdmin, setUser }) => {
         <form
           className={classes.form}
           noValidate
-          onSubmit={(event) => event.preventDefault()}>
+          onChange={(event) => event.preventDefault()}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
