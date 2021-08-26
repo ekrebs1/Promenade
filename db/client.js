@@ -13,4 +13,6 @@ module.exports = {
   client,
   pgp,
   db,
+  DB_URL,
+  DB_NAME,
 };
