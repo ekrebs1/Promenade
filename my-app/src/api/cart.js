@@ -22,7 +22,7 @@ export const clearAdmin = () => {
 
 export async function getCart(token) {
   try {
-    const { data } = await axios.get("/api/cart", {
+    const data = await axios.get("/api/cart", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -225,6 +225,17 @@ const createInitialProducts = async () => {
         in_stock: true,
         inventory: 3,
       },
+      {
+        name: "test",
+        date_created: "2021/03/17",
+        description:
+          "A throw-on-and-go classic with this maxi dress. It features dolman sleeves with a side slit.",
+        price: 38.0,
+        image_url: "",
+        category: "cover-up",
+        in_stock: true,
+        inventory: 3,
+      },
     ];
 
     const products = await Promise.all(productsToCreate.map(createProduct));
