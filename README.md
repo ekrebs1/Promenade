@@ -20,7 +20,9 @@ npm install
 ## Usage
 
 ```sh
-npm run start
+npm run db:build 
+npm run server:dev
+npm run client:dev
 ```
 
 ## Author
