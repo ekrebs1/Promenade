@@ -9,7 +9,7 @@
 
 > An e-commerce platform allowing administrator preferences and customer accounts
 
-### 🏠 [Homepage](https://peaceful-citadel-99501.herokuapp.com/)
+### 🌐  [Live Site](https://peaceful-citadel-99501.herokuapp.com/)
 
 ## Install
 
