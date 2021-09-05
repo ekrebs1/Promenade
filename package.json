@@ -9,8 +9,6 @@
     "client:build": "react-scripts build",
     "server:dev": "node index.js",
     "db:build": "node ./db/init_db",
-    "server:local": "nodemon index.js",
-    "db:local": "nodemon ./db/init_db",
     "start": "node index.js"
   },
   "keywords": [],
