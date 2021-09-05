@@ -8,7 +8,6 @@
     "client:dev": "react-scripts start",
     "client:build": "react-scripts build",
     "server:dev": "node index.js",
-    "server:local": "nodemon index.js",
     "db:build": "node ./db/init_db",
     "start": "node index.js"
   },
